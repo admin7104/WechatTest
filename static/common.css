@@ -80,6 +80,10 @@ html,body{
   float: right;
 }
 
+.ib{
+  display: inline-block;
+}
+
 .hide{
   display: none;
 }
@@ -121,4 +125,18 @@ html,body{
 .mint-header-title{color: #fff;}
 .mintui-back:before{
   color: #fff;
+}
+.mint-search{
+  height: 1.95rem;
+  width: 100%;
+  position: fixed;
+}
+.mint-searchbar{
+  height: 1.95rem;
+  background-color: #fc5c3f;
+}
+.mint-searchbar-cancel{
+  color: #fff;
+  font-size: 0.6rem;
+  line-height: 0.6rem;
 }

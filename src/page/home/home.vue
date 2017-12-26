@@ -115,7 +115,7 @@
 <style lang="scss" scoped>
   @import '../../style/mixin.scss';
   .mc{
-    color: $mainColor;
+    color: $mc;
   }
   .sf{
     font-size: 0.4rem;
@@ -179,7 +179,7 @@
   }
   .rate_dec{
     font-size: 0.4rem;
-    border: 1px solid $mainColor;
+    border: 1px solid $mc;
     border-radius: 4px;
     padding: 2px 4px;
   }
@@ -188,7 +188,7 @@
     display: inline-block;
   }
   .btn_invest{
-    background: $mainColor;
+    background: $mc;
     width: 100%;
   }
 </style>
