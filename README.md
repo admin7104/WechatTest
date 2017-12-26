@@ -1,6 +1,6 @@
-# zhcs-wexin
+# project-wexin
 
-> 智慧财神微信端
+> 投资项目微信端
 
 ## Build Setup
 
