@@ -18,6 +18,15 @@
             <router-link :to="{path: '/invest_detail'}">
               <section class="project-item">
                 <h3>神车通171213010{{index}}<img src="../../../static/images/home/biaoqian_shoutou.png"></h3>
+                <loading-progress
+                  :progress="progress"
+                  :indeterminate="indeterminate"
+                  :counter-clockwise="counterClockwise"
+                  :hide-background="hideBackground"
+                  shape="almostcircle"
+                  size="100"
+                  fill-duration="1"
+                />
                 <div class="project_infos">
                   <p class="rate_title">预期年化收益</p>
                   <p class="rate mc">12.<span class="mc">80%</span></p>
@@ -48,6 +57,7 @@
   import 'swiper/dist/css/swiper.min.css'
   import Banner from '@/components/common/Banner'
   import footerGuide from '@/components/footer/footerGuide'
+  import 'vue-progress-path/dist/vue-progress-path.css'
   export default {
     data: function () {
       return {
@@ -90,7 +100,11 @@
             title:"邀请好友"
           }
         ],
-        projects:[1,1,1]
+        projects:[1,1,1],
+        indeterminate: false,
+        progress: 1-0.8,
+        counterClockwise: false,
+        hideBackground: false,
       }
     },
     mounted(){
@@ -114,6 +128,7 @@
 </script>
 <style lang="scss" scoped>
   @import '../../style/mixin.scss';
+  .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;}
   .mc{
     color: $mc;
   }

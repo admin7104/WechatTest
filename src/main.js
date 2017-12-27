@@ -9,6 +9,7 @@ import FastClick from 'fastclick'
 import http from 'vue-resource'
 import 'mint-ui/lib/style.css';
 import '../static/common.css';
+import VueProgress from 'vue-progress-path'
 
 if ('addEventListener' in document) {
   document.addEventListener('DOMContentLoaded', function() {
@@ -17,6 +18,7 @@ if ('addEventListener' in document) {
 }
 Vue.config.productionTip = false;
 Vue.use(mintUI);
+Vue.use(VueProgress)
 Vue.prototype.$http = http;
 
 /* eslint-disable no-new */
