@@ -13,47 +13,36 @@
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
         <li v-for="item in projectList">
-          <div :class="item.progressValue==1?'project_item project_item_f':'project_item'">
-            <div class="p_head">
-              <h3 class="projectName">{{item.projectName}}<span :class="item.progressValue==1?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
+          <router-link :to="{path: '/invest_detail'}">
+            <div :class="item.progressValue==1?'project_item project_item_f':'project_item'">
+              <div class="p_head">
+                <h3 class="projectName">{{item.projectName}}<span :class="item.progressValue==1?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
+              </div>
+              <div class="ib info_left">
+                <p class="percent">15.<span>00%</span><span class="extra">+3.00%</span></p>
+                <p class="desc lh">历史年化收益率</p>
+              </div>
+              <div class="ib info_right">
+                <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">15天</span></p>
+                <p class="lh"><span class="desc">可投金额</span><span class="text">86,000.00元</span></p>
+              </div>
+              <p class="progress_value" v-if="item.progressValue!=1">{{item.progressValue*100}}%</p>
+              <loading-progress v-if="item.progressValue!=1"
+                :progress="1-item.progressValue"
+                :indeterminate="indeterminate"
+                :counter-clockwise="counterClockwise"
+                :hide-background="hideBackground"
+                shape="circle"
+                size="150"
+                fill-duration="2"
+                background="circle_bg"
+                progress_bg = "progress2"
+              />
+              <div v-if="item.progressValue==1" class="sell_status sold"></div>
+              <!--<div class="sell_status repaid"></div>
+              <div class="sell_status repaying"></div>-->
             </div>
-            <div class="ib info_left">
-              <p class="percent">15.<span>00%</span><span class="extra">+3.00%</span></p>
-              <p class="desc lh">历史年化收益率</p>
-            </div>
-            <div class="ib info_right">
-              <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">15天</span></p>
-              <p class="lh"><span class="desc">可投金额</span><span class="text">86,000.00元</span></p>
-            </div>
-            <p class="progress_value" v-if="item.progressValue!=1">{{item.progressValue*100}}%</p>
-            <loading-progress v-if="item.progressValue!=1"
-              :progress="1-item.progressValue"
-              :indeterminate="indeterminate"
-              :counter-clockwise="counterClockwise"
-              :hide-background="hideBackground"
-              shape="circle"
-              size="150"
-              fill-duration="2"
-              background="circle_bg"
-              progress_bg = "progress2"
-            />
-            <div v-if="item.progressValue==1" class="sell_status sold"></div>
-            <!--<div class="sell_status repaid"></div>
-            <div class="sell_status repaying"></div>-->
-          </div>
-          <!--<div class="project_item project_item_f">
-            <div class="p_head">
-              <h3 class="projectName">{{project.projectName}}<span class="tag tag_f" v-for="tag in project.tag">{{tag}}</span></h3>
-            </div>
-            <div class="ib info_left">
-              <p class="percent">15.<span>00%</span><span class="extra">+3.00%</span></p>
-              <p class="desc lh">历史年化收益率</p>
-            </div>
-            <div class="ib info_right">
-              <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">15天</span></p>
-              <p class="lh"><span class="desc">可投金额</span><span class="text">86,000.00元</span></p>
-            </div>
-          </div>-->
+          </router-link>
         </li>
       </ul>
     </div>
