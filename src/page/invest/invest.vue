@@ -13,9 +13,9 @@
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
         <li v-for="item in projectList">
-          <div class="project_item">
+          <div :class="item.progressValue==1?'project_item project_item_f':'project_item'">
             <div class="p_head">
-              <h3 class="projectName">{{project.projectName}}<span class="tag" v-for="tag in project.tag">{{tag}}</span></h3>
+              <h3 class="projectName">{{item.projectName}}<span :class="item.progressValue==1?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
             </div>
             <div class="ib info_left">
               <p class="percent">15.<span>00%</span><span class="extra">+3.00%</span></p>
@@ -25,8 +25,23 @@
               <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">15天</span></p>
               <p class="lh"><span class="desc">可投金额</span><span class="text">86,000.00元</span></p>
             </div>
+            <p class="progress_value" v-if="item.progressValue!=1">{{item.progressValue*100}}%</p>
+            <loading-progress v-if="item.progressValue!=1"
+              :progress="1-item.progressValue"
+              :indeterminate="indeterminate"
+              :counter-clockwise="counterClockwise"
+              :hide-background="hideBackground"
+              shape="circle"
+              size="150"
+              fill-duration="2"
+              background="circle_bg"
+              progress_bg = "progress2"
+            />
+            <div v-if="item.progressValue==1" class="sell_status sold"></div>
+            <!--<div class="sell_status repaid"></div>
+            <div class="sell_status repaying"></div>-->
           </div>
-          <div class="project_item project_item_f">
+          <!--<div class="project_item project_item_f">
             <div class="p_head">
               <h3 class="projectName">{{project.projectName}}<span class="tag tag_f" v-for="tag in project.tag">{{tag}}</span></h3>
             </div>
@@ -38,7 +53,7 @@
               <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">15天</span></p>
               <p class="lh"><span class="desc">可投金额</span><span class="text">86,000.00元</span></p>
             </div>
-          </div>
+          </div>-->
         </li>
       </ul>
     </div>
@@ -49,20 +64,68 @@
 <script>
   import headTop from '@/components/header/head'
   import footerGuide from '@/components/footer/footerGuide'
+  import 'vue-progress-path/dist/vue-progress-path.css'
   export default {
     data: function () {
       return {
         headTitle: "",
         selected:true,
         currentType:'new',
-        loading:false,
-        projectList:[],
-        list:[1],
-        list2:[1,1,1,1,1,1,1,1,1],
-        project:{
+        loading:true,
+        list:[
+          {
+            projectName:'新客专享第00341期',
+            tag:['期限短','收益高'],
+            progressValue:0.2
+          },
+          {
+            projectName:'新客专享第00341期',
+            tag:['期限短','收益高'],
+            progressValue:0.4
+          }
+        ],
+        list2:[
+          {
+            projectName:'新客专享第00341期',
+            tag:['期限短','收益高'],
+            progressValue:1
+          },
+          {
+            projectName:'新客专享第00341期',
+            tag:['期限短','收益高'],
+            progressValue:0.8
+          }
+          ,
+          {
+            projectName:'新客专享第00341期',
+            tag:['期限短','收益高'],
+            progressValue:0.5
+          },
+          {
+            projectName:'新客专享第00341期',
+            tag:['期限短','收益高'],
+            progressValue:0.5
+          },
+          {
+            projectName:'新客专享第00341期',
+            tag:['期限短','收益高'],
+            progressValue:0.9
+          }
+          ,
+          {
+            projectName:'新客专享第00341期',
+            tag:['期限短','收益高'],
+            progressValue:0.1
+          }
+        ],
+        projectList:[{
           projectName:'新客专享第00341期',
-          tag:['期限短','收益高']
-        }
+          tag:['期限短','收益高'],
+          progressValue:0.2
+        }],
+        indeterminate: false,
+        counterClockwise: false,
+        hideBackground: false,
       }
     },
     mounted(){
@@ -92,6 +155,14 @@
 </script>
 <style lang="scss" scoped>
   @import '../../style/mixin.scss';
+  .vue-progress-path{width: 3rem!important;height: 3rem!important;stroke-width: 6;position: absolute;top: 2rem;right: 0;}
+  .progress_value{
+    position: absolute;
+    top: 3rem;
+    right: 0.6rem;
+    color: #fc5c3f;
+    font-size: 0.8rem;
+  }
   .mint-navbar {
     width: 52%;
     margin: 0 auto;
@@ -139,6 +210,7 @@
     border-bottom: 1px solid rgb(230,230,230);
   }
   .project_item{
+    position: relative;
     margin-top: 0.638rem;
     padding: 0 0.638rem 0.338rem;
     background-color: $fc;
@@ -184,6 +256,7 @@
     }
     .info_left{
       min-width: 6.5rem;
+      margin-top: 0.4rem;
     }
     .info_right{
       padding-left: 0.4rem;
@@ -204,4 +277,15 @@
       color: $cf;
     }
   }
+  .sell_status{
+    @include wh(3.81rem,3.66rem);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 1.4rem;
+    right:0;
+  }
+  .sold{background-image: url("../../../static/images/invest/sold.png")}
+  .repaid{background-image: url("../../../static/images/invest/repaid.png")}
+  .repaying{background-image: url("../../../static/images/invest/repaying.png")}
 </style>

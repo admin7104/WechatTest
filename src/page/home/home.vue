@@ -102,7 +102,7 @@
         ],
         projects:[1,1,1],
         indeterminate: false,
-        progress: 1-0.8,
+        progress: 1-0.2,
         counterClockwise: false,
         hideBackground: false,
       }
@@ -128,7 +128,7 @@
 </script>
 <style lang="scss" scoped>
   @import '../../style/mixin.scss';
-  .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;}
+  .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;position: absolute;left: 4.5rem;}
   .mc{
     color: $mc;
   }
