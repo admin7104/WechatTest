@@ -1,7 +1,7 @@
 {
   "name": "zhcs-wexin",
   "version": "1.0.0",
-  "description": "智慧财神微信端",
+  "description": "微信端理财项目",
   "author": "wanglixin <wanglixin@zhcsjr.com>",
   "private": true,
   "scripts": {
