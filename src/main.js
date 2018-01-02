@@ -9,6 +9,7 @@ import FastClick from 'fastclick'
 import http from 'vue-resource'
 import 'mint-ui/lib/style.css';
 import '../static/common.css';
+import '../static/animate.css';
 import VueProgress from 'vue-progress-path'
 
 if ('addEventListener' in document) {

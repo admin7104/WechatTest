@@ -38,7 +38,7 @@
               <p class="text"><span class="left">已投{{progress_value}}%</span><span class="right">剩余可投<i>100,000.00</i>元</span></p>
             </section>
             <section class="project_intro">
-              <h4>项目介绍</h4>
+              <h4><i></i>项目介绍</h4>
               <div class="intro_content">
                 <ul>
                   <li><p>产品发布</p></li>
@@ -78,11 +78,74 @@
           </div>
           <button class="pull">下拉显示更多</button>
         </div>
-        <div class="swiper-slide">
-          <p style="margin-top: 1.95rem;">第二页</p>
+
+        <div class="swiper-slide" style="padding-top: 1.95rem;">
+          <div class="nav" v-model="active">
+            <mt-button :class="active=='tab-container1'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container1'">产品详情</mt-button>
+            <mt-button :class="active=='tab-container2'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container2'">相关证件</mt-button>
+            <mt-button :class="active=='tab-container3'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container3'">投资记录</mt-button>
+          </div>
+
+          <!-- tab-container -->
+          <div class="list_container">
+            <mt-tab-container v-model="active" swipeable>
+              <mt-tab-container-item id="tab-container1">
+                <div class="tab1">
+                  <div class="p_intro">
+                    <h4><i></i>产品说明</h4>
+                    <table>
+                      <tr>
+                        <th>产品名称</th>
+                        <td>神车通</td>
+                      </tr>
+                      <tr>
+                        <th>加入条件</th>
+                        <td>稳健性及以上投资者</td>
+                      </tr>
+                      <tr>
+                        <th>计息日</th>
+                        <td>2018年1月2日</td>
+                      </tr>
+                      <tr>
+                        <th>锁定期</th>
+                        <td>三个月</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="p_desc">
+                    <h4><i></i>产品描述</h4>
+                    <p>本债权是由杭州萧驰汽车销售有限公司提供，系办理合同编号为【CSQC-20170013】的汽车金融公司间客金融业务。</p>
+                  </div>
+                  <div class="p_opera">
+                    <h4><i></i>第三方合作机构</h4>
+                    <p>杭州萧驰汽车销售有限公司是一家主要从事“汽车销售、汽车银行按揭及汽车抵押贷款业务代理服务、各种汽车咨询服务，二手车交易”的私营企业，当前公司的业务范围实际覆盖杭州、临安、富阳、宁波市场并在积极向全省拓展，其他区域也在积极铺设网点。公司在2016年09月已成为中国工商银行浙江市场汽车银行按揭业务额最大的汽车销售公司。</p>
+                  </div>
+                  <div class="p_suggest">
+                    <h4><i></i>独立风控审核意见</h4>
+                    <p>杭州萧驰汽车销售有限公司均已对借款人的基础信息进行审核，经该机构核实，购车人身份信息、购车信息、借款合同及担保函等相关系列材料，证实借款主体相关信息齐全、真实、可靠。</p>
+                  </div>
+                  <div class="p_ways">
+                    <h4><i></i>风控措施</h4>
+                    <p>1、合作机构对借款主体进行严格尽职调查，评估该笔债权所涉及的债权转让人收入稳定，还款来源真实有保障；<br>
+                      2、债权转让人保证借款人信息真实有效，收入稳定，信用状况良好；<br>
+                      3、合作机构行业口碑优良，具有较强的业务及风险把控能力，通过全国法院公开数据查询，企业和法人代表近五年无失信被执行信息，无被执行案件，无不良信用记录；<br>
+                      4、车辆所有人及其财产共有人连带担保，三方机构提供变现担保、代偿，保障措施完备。
+                    </p>
+                  </div>
+                </div>
+              </mt-tab-container-item>
+              <mt-tab-container-item id="tab-container2">
+                <mt-cell v-for="n in 5" :key="n" title="tab-container 2"></mt-cell>
+              </mt-tab-container-item>
+              <mt-tab-container-item id="tab-container3">
+                <mt-cell v-for="n in 7" :key="n" title="tab-container 3"></mt-cell>
+              </mt-tab-container-item>
+            </mt-tab-container>
+          </div>
         </div>
       </div>
     </div>
+    <button class="invest_btn"><img class="animated pulse infinite" src="../../../static/images/home/investanimation@2x.png">立即投资</button>
   </div>
 </template>
 
@@ -97,6 +160,7 @@
         indeterminate: false,
         counterClockwise: false,
         hideBackground: false,
+        active: 'tab-container1'
       }
     },
     components:{
@@ -138,6 +202,10 @@
     padding-left: 0.4rem;
   }
   /*详情*/
+  .project-swiper-container{height: -webkit-fill-available;background: #e5e5e5;}
+  .swiper-wrapper{margin-bottom: 1.95rem;}
+  .swiper-slide-active{min-height: 100%;height: fit-content!important;}
+  .swiper-slide-next{display: none;}
   .project_info{
     background: #f7f9fb;
     padding-bottom: 1.102rem;
@@ -202,6 +270,14 @@
       color: #444;
       @include hh(2.217rem,2.217rem);
       border-bottom: 1px solid #f4f4f4;
+      i{
+        width: 0.14rem;
+        height: 0.46rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-right: 0.2rem;
+        background: #fc5c3f;
+      }
     }
     .intro_content{padding: 0 0.628rem;}
     ul{
@@ -255,4 +331,50 @@
   .tips{margin-top: 0.51rem;}
 
   .pull{@include hh(2.085rem,2.085rem);width: 100%;@include sc(0.51rem,#909090);}
+
+  /*tab切换*/
+  .nav{background: $fc;}
+  .tab_btn{
+    width: 20%;
+    box-shadow: none;
+    padding: 0;
+    border-radius: inherit;
+    margin: 0 6%;
+    background: $fc;
+  }
+  .mint-button{
+    font-size: 0.638rem;
+  }
+  .tab_selected{
+    color: #ee6a28;
+    border-bottom: 2px solid #ee6a28;
+  }
+  .list_container{margin-top: 0.2rem;}
+  .tab1{
+    background: $fc;
+    padding: 0.341rem;
+    p{font-size: 0.51rem;}
+    h4{
+      margin-bottom: 0.2rem;
+      font-size: 0.51rem;
+      i{
+        width: 0.14rem;
+        height: 0.46rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-right: 0.2rem;
+        background: #fc5c3f;
+      }
+    }
+    th{color: #999;min-width: 3.85rem;}
+    th,td{font-size: 0.51rem;text-align: left;line-height: 1.2rem;}
+  }
+  .tab1>div{border-bottom: 1px solid #e6e6e6;padding: 0.45rem 0;}
+  .invest_btn{position: fixed;bottom: 0;height: 1.95rem;width: 100%;color: $fc;background: #ccc;font-size: 0.723rem;
+    img{
+      width: 0.968rem;
+      position: absolute;
+      left: 5.2rem;
+    }
+  }
 </style>
