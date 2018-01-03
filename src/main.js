@@ -11,6 +11,7 @@ import 'mint-ui/lib/style.css';
 import '../static/common.css';
 import '../static/animate.css';
 import VueProgress from 'vue-progress-path'
+import CustomShapes from './utils/custom_shapes'
 
 if ('addEventListener' in document) {
   document.addEventListener('DOMContentLoaded', function() {
@@ -19,7 +20,8 @@ if ('addEventListener' in document) {
 }
 Vue.config.productionTip = false;
 Vue.use(mintUI);
-Vue.use(VueProgress)
+Vue.use(VueProgress);
+Vue.use(CustomShapes);
 Vue.prototype.$http = http;
 
 /* eslint-disable no-new */

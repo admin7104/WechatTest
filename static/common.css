@@ -186,3 +186,13 @@ html,body{
   font-size: 0.6rem;
   line-height: 0.6rem;
 }
+/*进度条自定义*/
+.vue-progress-path{display:inline-block;}
+.vue-progress-path path{fill:none;transition:stroke-dashoffset 1s ease;}
+.vue-progress-path .background{stroke:#ddd}
+.vue-progress-path .circle_bg{stroke:#fc5c3f}
+.vue-progress-path .progress{stroke:#fcbda8}
+.vue-progress-path .progress2{stroke:#fff0ee}
+.vue-progress-path.indeterminate path{transition:none}
+.vue-progress-path svg{width: 100%;height: 100%;}
+

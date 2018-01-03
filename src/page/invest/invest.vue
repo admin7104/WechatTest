@@ -53,7 +53,7 @@
 <script>
   import headTop from '@/components/header/head'
   import footerGuide from '@/components/footer/footerGuide'
-  import 'vue-progress-path/dist/vue-progress-path.css'
+  import '../../../static/common.css'
   export default {
     data: function () {
       return {

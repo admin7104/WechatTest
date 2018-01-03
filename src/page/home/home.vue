@@ -57,7 +57,7 @@
   import 'swiper/dist/css/swiper.min.css'
   import Banner from '@/components/common/Banner'
   import footerGuide from '@/components/footer/footerGuide'
-  import 'vue-progress-path/dist/vue-progress-path.css'
+  import '../../../static/common.css'
   export default {
     data: function () {
       return {
@@ -128,7 +128,7 @@
 </script>
 <style lang="scss" scoped>
   @import '../../style/mixin.scss';
-  .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;position: absolute;left: 4.5rem;}
+  .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;position: absolute;left: 2.5rem;}
   .mc{
     color: $mc;
   }
