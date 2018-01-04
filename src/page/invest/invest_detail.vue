@@ -370,9 +370,9 @@
     th,td{font-size: 0.51rem;text-align: left;line-height: 1.2rem;}
   }
   .tab1>div{border-bottom: 1px solid #e6e6e6;padding: 0.45rem 0;}
-  .invest_btn{position: fixed;bottom: 0;height: 1.95rem;width: 100%;color: $fc;background: #ccc;font-size: 0.723rem;
+  .invest_btn{position: fixed;bottom: 0;height: 1.95rem;width: 100%;color: $fc;background: #ccc;font-size: 0.723rem;z-index: 1000;
     img{
-      width: 0.968rem;
+      @include wh(0.968rem,0.968rem);
       position: absolute;
       left: 5.2rem;
     }

@@ -1,0 +1,26 @@
+
+.recharge_withdraw_page{background: #f3f3f3;}
+.balance{padding: 0.4rem 0.85rem;}
+.balance{background: #fc5c3f url("../../../static/images/recharge_withdraw/rw_bg.png") no-repeat;background-size: 100% 100%;}
+.withdraw_content{padding-top: 1.95rem;}
+.balance p{color: #fff;font-size: 1.78rem;}
+.balance .text{font-size: 0.5rem}
+
+.operation{background: #fff;height: 8.9rem;box-sizing: border-box;}
+.bank_img,.bank_name{float: left;font-size: 0.6rem;color: #282828;line-height: 1rem;margin: 0.74rem 0}
+.bank_img{margin: 0.74rem 0.85rem;width: 2.1276rem;height: 2.1276rem;}
+.info .bank_num{color: #b4b4b4;}
+.intro>div:not(.clear){margin: 0 0 0 0.85rem;height: 1.91rem;line-height: 1.91rem;padding-right: 0.4rem;border-top: 1px solid #dcdcdc;}
+.intro>div p{float: left;font-size: 0.6rem;  color: #999;}
+.intro>div .username,.intro>div .phone{float: right;color: #333;}
+.intro input{width: 100%;background: #fefcec url("../../../static/images/recharge_withdraw/money_bg.png") no-repeat;height: 2.12rem;padding-left: 1.7rem;background-size: 0.6rem;background-position: center left;  background-position-x: 0.85rem;}
+.intro input::-webkit-input-placeholder {color: #bdbdbd;}
+.intro input:-moz-placeholder {color: #bdbdbd;}
+.intro input::-moz-placeholder {color: #bdbdbd;}
+.intro input:-ms-input-placeholder {color: #bdbdbd;}
+
+.desc{float: right;  font-size: 0.4rem;  line-height: 1rem;  margin: 0.74rem 0.4rem;  text-align: right;}
+.desc span{color: #fc5c3f;}
+
+.withdraw_btn,.recharge_btn{background: #fc5c3f;color: #fff;width: 100%;font-size: 0.72rem;padding: 0.4rem 0;  border-radius: 0.17rem;}
+.forget_pwd{font-size: 0.51rem; color: #999;float: right;  margin-right: 0.85rem;}

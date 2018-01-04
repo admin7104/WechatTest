@@ -52,6 +52,10 @@ html,body{
   background-color: #F5F5F5;
 }
 
+#app{
+  min-height: 100%;
+}
+
 
 .clear:after{
   content: '';
@@ -185,6 +189,24 @@ html,body{
   color: #fff;
   font-size: 0.6rem;
   line-height: 0.6rem;
+}
+.mint-cell-wrapper{
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#e4e4e4), color-stop(50%, #e4e4e4), color-stop(50%, transparent));
+  background-position: bottom left;
+}
+.avatar .mint-cell-wrapper{
+  line-height: inherit;
+}
+.no_border .mint-cell-wrapper,.no_border.mint-cell:last-child{
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), color-stop(50%, #fff), color-stop(50%, transparent));
+}
+
+.advertising .mint-swipe-indicator{
+  background: #e5d5d0;
+  opacity: 1;
+}
+.advertising .mint-swipe-indicator.is-active{
+  background: #fc694e;
 }
 /*进度条自定义*/
 .vue-progress-path{display:inline-block;}
