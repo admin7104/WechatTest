@@ -1,6 +1,6 @@
 <template>
   <div class="account_infos_body">
-    <head-top :head-title="headTitle" is-back="true"></head-top>
+    <head-top :head-title="headTitle" is-back="true" @go-page="$router.go(-1)"></head-top>
     <div class="account_infos">
       <mt-cell class="avatar mt20 no_border" title="头像">
         <img class="right" slot="icon" src="../../../../static/images/account/head_icon.png">

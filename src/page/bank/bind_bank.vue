@@ -1,6 +1,6 @@
 <template>
     <div class="">
-      <head-top :head-title="profiletitle" is-back="true"></head-top>
+      <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
       <form class="bind_bank">
         <p class="tips">*智慧财神采用数据加密，100%确保信息安全</p>
         <mt-field class="border_b" label="姓名" placeholder="请输入真实姓名" v-model="realname"></mt-field>

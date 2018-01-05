@@ -1,6 +1,6 @@
 <template>
     <div class="my_bank">
-      <head-top :head-title="profiletitle" is-back="true"></head-top>
+      <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
       <div class="bank_info bg100">
         <div class="top_text">
           <img class="left" src="../../../static/images/account/bank/gongshang.png">

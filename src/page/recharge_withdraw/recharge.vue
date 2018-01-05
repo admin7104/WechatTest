@@ -1,6 +1,6 @@
 <template>
   <div class="recharge_withdraw_page">
-    <head-top :head-title="profiletitle" is-back="true">
+    <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)">
       <router-link slot="more" :to="{path: '/recharge_list'}" class="more">
         充值记录
       </router-link>
@@ -15,6 +15,7 @@
           <img class="bank_img" src="../../../static/images/account/bank/gongshang.png">
           <p class="bank_name">中国工商银行<br><span class="bank_num">尾号8018</span></p>
           <p class="desc">单笔限额<span>5万元</span><br>单日充值限额<span>50万元</span></p>
+          <div class="clear"></div>
           <div class="intro">
             <div><p>姓名</p><p class="username">王二</p></div>
             <div class="clear"></div>

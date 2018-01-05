@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-top :head-title="profiletitle" is-back="true"></head-top>
+    <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
     <div class="bank_list">
       <div class="bank_item" v-for="item in bankList">
         <router-link :to="{path:'/bind_bank',query: {bankname: bankname+item}}">

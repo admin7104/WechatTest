@@ -1,22 +1,64 @@
 <template>
   <div class="invest_list">
-    <head-top :head-title="headTitle" is-back="true" is-gray="true"></head-top>
+    <head-top :head-title="headTitle" is-back="true" is-gray="true" @go-page="$router.push('account')"></head-top>
     <div class="list_content">
       <mt-navbar v-model="selected" class="nav_tab">
-        <mt-button :class="selected=='invest_list1'?'current col-4':' col-4'" @click="selected='invest_list1'">筹集中</mt-button>
-        <mt-button :class="selected=='invest_list2'?'current col-4':' col-4'" @click="selected='invest_list2'">投资中</mt-button>
-        <mt-button :class="selected=='invest_list3'?'current col-4':' col-4'" @click="selected='invest_list3'">已还清</mt-button>
+        <mt-button :class="selected=='invest_list1'?'current col-4':' col-4'" @click="changeType('invest_list1')">筹集中</mt-button>
+        <mt-button :class="selected=='invest_list2'?'current col-4':' col-4'" @click="changeType('invest_list2')">投资中</mt-button>
+        <mt-button :class="selected=='invest_list3'?'current col-4':' col-4'" @click="changeType('invest_list3')">已还清</mt-button>
       </mt-navbar>
       <div class="list_container">
         <mt-tab-container v-model="selected" swipeable>
           <mt-tab-container-item id="invest_list1" v-show="selected=='invest_list1'">
-            <mt-cell v-for="n in 10" :key="n" :title="'内容 ' + n" />
+            <ul>
+              <router-link :to="{path:'/invest_item',query: {itemId: n}}" v-for="n in 4" :key="n">
+                <li>
+                  <div class="title">
+                    <h4>新客专享第00115期</h4>
+                    <p class="invest_time">2018-01-05 09:43:22</p>
+                  </div>
+                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">15%</span></p>
+                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">20,000.00</span></p>
+                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">145.83</span></p>
+                  <p class="clear"><span class="text left">到期时间</span><span class="right">2018-01-05</span></p>
+                  <span class="tag">筹集中</span>
+                </li>
+              </router-link>
+            </ul>
           </mt-tab-container-item>
           <mt-tab-container-item id="invest_list2" v-show="selected=='invest_list2'">
-            <mt-cell v-for="n in 4" :key="n" :title="'测试 ' + n" />
+            <ul>
+              <router-link :to="{path:'/invest_item',query: {itemId: n}}" v-for="n in 8" :key="n">
+                <li>
+                  <div class="title">
+                    <h4>新客专享第00115期</h4>
+                    <p class="invest_time">2018-01-05 09:43:22</p>
+                  </div>
+                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">15%</span></p>
+                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">20,000.00</span></p>
+                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">145.83</span></p>
+                  <p class="clear"><span class="text left">到期时间</span><span class="right">2018-01-05</span></p>
+                  <span class="tag">投资中</span>
+                </li>
+              </router-link>
+            </ul>
           </mt-tab-container-item>
           <mt-tab-container-item id="invest_list3" v-show="selected=='invest_list3'">
-            <mt-cell v-for="n in 6" :key="n" :title="'选项 ' + n" />
+            <ul>
+              <router-link :to="{path:'/invest_item',query: {itemId: n}}" v-for="n in 3" :key="n">
+                <li>
+                  <div class="title">
+                    <h4>新客专享第00115期</h4>
+                    <p class="invest_time">2018-01-05 09:43:22</p>
+                  </div>
+                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">15%</span></p>
+                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">20,000.00</span></p>
+                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">145.83</span></p>
+                  <p class="clear"><span class="text left">到期时间</span><span class="right">2018-01-05</span></p>
+                  <span class="tag">已还清</span>
+                </li>
+              </router-link>
+            </ul>
           </mt-tab-container-item>
         </mt-tab-container>
       </div>
@@ -40,10 +82,16 @@
       this.getEleById("app").style.background = '#f1f1f1';
       this.getEleById("headerTop").style.background = '#fff';
       this.getEleById("headerTitle").style.color = '#333';
+      if(this.$route.query.selected!=undefined)
+        this.selected = this.$route.query.selected;
     },
     methods:{
       getEleById(id){
           return document.getElementById(id);
+      },
+      changeType(selected){
+          this.selected = selected;
+          this.$router.push({path:'/invest_list',query:{selected:selected}});
       }
     }
   }
@@ -52,19 +100,66 @@
   @import '../../../style/mixin';
   .invest_list{min-height: 100%;}
   .list_content{
-    padding-top: 1.95rem;
+    padding-top: 3.7797rem;
     .nav_tab{
       border-top: 1px solid #e8e8e8;
       border-bottom: 1px solid #e8e8e8;
+      position: fixed;
+      top: 1.95rem;
+      width: 100%;
+      height: 1.8297rem;
+      z-index: 1;
       button{
         border: none;
         box-shadow: none;
         background: $fc;
         border-radius: 0;
+        padding: 0;
+        margin: 0 15px;
       }
       button.current{
         border-bottom: 2px solid $mc;
         color: #333;
+      }
+    }
+  }
+  .list_container{
+    padding-bottom: 0.4255rem;
+    li{
+      position: relative;
+      background: $fc;
+      @include wh(14.6808rem,7.6595rem);
+      margin: 0.4255rem auto 0;
+      padding: 0 0.4255rem;/*0.6383rem*/
+      border-radius: 4px;
+      .title{
+        height: 2.5532rem;
+        padding-top: 0.6383rem;
+        border-bottom: 1px solid #e8e8e8;
+        margin-bottom: 0.6383rem;
+      }
+      h4{
+        font-size: 0.6383rem;
+      }
+      p{
+        font-size: 0.5957rem;
+        line-height: 1.0212rem;
+        span.left{color: #999;}
+        span.right{color: #333;}
+      }
+      .invest_time{
+        font-size: 0.3829rem;
+      }
+      span.tag{
+        position: absolute;
+        right: 0;
+        top: 0.8085rem;
+        background: url("../../../../static/images/recode/status_bg.png");
+        background-size: 100% 100%;
+        @include sc(0.5957rem,#fc7a5c);
+        @include wh(2.932rem,0.8936rem);
+        text-align: right;
+        padding-right: 8px;
       }
     }
   }

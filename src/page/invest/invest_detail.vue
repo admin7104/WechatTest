@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--<head-top :head-title="headTitle" :is-back="true"></head-top>-->
     <header class="header_top">
       <section class="head_goback left" @click="$router.go(-1)">
         <img src="../../../static/images/tabBar/back_normal@2x.png">

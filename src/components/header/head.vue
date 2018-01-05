@@ -1,6 +1,6 @@
 <template>
   <header class="header_top" id="headerTop">
-    <section class="head_goback left" v-if="isBack" @click="$router.go(-1)">
+    <section class="head_goback left" v-if="isBack" @click="goPage(url)">
       <img v-if="!isGray" src="../../../static/images/tabBar/back_normal@2x.png">
       <img v-if="isGray" src="../../../static/images/tabBar/back_gray@2x.png">
     </section>
@@ -14,19 +14,20 @@
     <slot name="other"></slot>
     <slot name="more"></slot>
   </header>
-  <!--<mt-header :title="headTitle">
-    <router-link to="" slot="left">
-      <mt-button icon="back" v-if="isBack" @click="$router.go(-1)"></mt-button>
-    </router-link>
-  </mt-header>-->
 </template>
 
 <script>
   export default {
-    props:['headTitle','isBack','isGray'],
+    props:['headTitle','isBack','isGray','url'],
     data: function () {
       return {
         value:''
+      }
+    },
+    methods:{
+      goPage(url){
+        //this.$router.go(-1);
+        this.$emit('go-page', url);
       }
     }
   }
@@ -44,7 +45,7 @@
     z-index: 1000;
   }
   .header_title{
-    font-size: 0.6rem;
+    font-size: 0.7234rem;
     color: $fc;
   }
   .head_goback{

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-top :head-title="headTitle">
+    <head-top :head-title="headTitle" @go-page="$router.go(-1)">
       <nav slot="other" class="mint-navbar">
         <span @click="changeType('new')"><button :class="currentType=='new'?'selected':''">新客专享</button></span>
         <span @click="changeType('car')"><button :class="currentType=='car'?'selected':''">财神汽车</button></span>
@@ -118,7 +118,13 @@
       }
     },
     mounted(){
-        this.projectList = this.list;
+        const type = this.$route.query.type;
+        if(type!=undefined){
+          this.currentType = type;
+          type=='new'?this.projectList = this.list:this.projectList = this.list2;
+        }else{
+          this.projectList = this.list;
+        }
     },
     components:{
       headTop,
@@ -127,6 +133,7 @@
     methods:{
       changeType(type){
           this.currentType = type;
+          this.$router.push({path:'invest',query:{type:type}});
           type=='new'?this.projectList = this.list:this.projectList = this.list2;
       },
       loadMore() {
