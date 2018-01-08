@@ -12,6 +12,7 @@ export default {
 }
 </script>
 <style rel="stylesheet/scss" lang="scss">
+  #app{background: #f1f1f1;}
   .router-fade-enter-active, .router-fade-leave-active {
     transition: opacity .3s;
   }

@@ -44,7 +44,6 @@
       headTop
     },
     mounted(){
-      this.getEleById("app").style.background = '#f1f1f1';
       this.getEleById("headerTop").style.background = '#fff';
       this.getEleById("headerTitle").style.color = '#333';
       this.getEleById("extra_ul").style.display = 'none';

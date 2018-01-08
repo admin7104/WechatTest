@@ -59,13 +59,13 @@
     <section class="operation">
       <div class="white_bg">
         <ul>
-          <router-link :to="{path: '/recharge'}" class="col-4">
+          <router-link :to="{path: '/capital_details'}" class="col-4">
             <li><img src="../../../static/images/account/icon_1.png"><p>资金流水</p></li>
           </router-link>
-          <router-link :to="{path: '/recharge'}" class="col-4">
+          <router-link :to="{path: '/login'}" class="col-4">
             <li><img src="../../../static/images/account/icon_2.png"><p>理财券</p></li>
           </router-link>
-          <router-link :to="{path: '/recharge'}" class="col-4">
+          <router-link :to="{path: '/register'}" class="col-4">
             <li><img src="../../../static/images/account/icon_3.png"><p>精彩活动</p></li>
           </router-link>
           <router-link :to="{path: '/recharge'}" class="col-4">

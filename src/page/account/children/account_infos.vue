@@ -13,6 +13,12 @@
         value="">
       </mt-cell>
       <mt-cell
+        title="我的银行卡"
+        :to="{path:'/my_bank'}"
+        is-link
+        value="">
+      </mt-cell>
+      <mt-cell
         title="昵称"
         to="//github.com"
         is-link

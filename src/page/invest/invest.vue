@@ -73,7 +73,7 @@
             progressValue:0.4
           }
         ],
-        list2:[
+        listcar:[
           {
             projectName:'新客专享第00341期',
             tag:['期限短','收益高'],
@@ -83,8 +83,7 @@
             projectName:'新客专享第00341期',
             tag:['期限短','收益高'],
             progressValue:0.8
-          }
-          ,
+          },
           {
             projectName:'新客专享第00341期',
             tag:['期限短','收益高'],
@@ -99,8 +98,7 @@
             projectName:'新客专享第00341期',
             tag:['期限短','收益高'],
             progressValue:0.9
-          }
-          ,
+          },
           {
             projectName:'新客专享第00341期',
             tag:['期限短','收益高'],
@@ -119,11 +117,13 @@
     },
     mounted(){
         const type = this.$route.query.type;
-        if(type!=undefined){
+        if(type!==undefined){
           this.currentType = type;
-          type=='new'?this.projectList = this.list:this.projectList = this.list2;
+          type=='new'?this.projectList = this.list:this.projectList = this.listcar;
+          return;
         }else{
           this.projectList = this.list;
+          return;
         }
     },
     components:{
@@ -134,14 +134,14 @@
       changeType(type){
           this.currentType = type;
           this.$router.push({path:'invest',query:{type:type}});
-          type=='new'?this.projectList = this.list:this.projectList = this.list2;
+          type=='new'?this.projectList = this.list:this.projectList = this.listcar;
       },
       loadMore() {
         this.loading = true;
         setTimeout(() => {
-          let last = this.list[this.list.length - 1];
+          let last = this.projectList[this.projectList.length - 1];
           for (let i = 1; i <= 10; i++) {
-            this.list.push(last + i);
+            this.projectList.push(last + i);
           }
           this.loading = false;
         }, 2500);

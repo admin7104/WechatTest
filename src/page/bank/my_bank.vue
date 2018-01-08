@@ -1,17 +1,19 @@
 <template>
-    <div class="my_bank">
+    <div>
       <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
-      <div class="bank_info bg100">
-        <div class="top_text">
-          <img class="left" src="../../../static/images/account/bank/gongshang.png">
-          <span class="left">{{bankName}}</span><span class="left">（{{bankAddr}}）</span>
+      <div class="my_bank">
+        <div class="bank_info bg100">
+          <div class="top_text">
+            <img class="left" src="../../../static/images/account/bank/gongshang.png">
+            <span class="left">{{bankName}}</span><span class="left">（{{bankAddr}}）</span>
+          </div>
+          <div class="card_num">{{cardNum}}</div>
+          <div class="limit_money">限额：单笔50000元，日累计500000元</div>
         </div>
-        <div class="card_num">{{cardNum}}</div>
-        <div class="limit_money">限额：单笔50000元，日累计500000元</div>
+        <p class="bank_desc">只能绑定一张储蓄卡<br>
+          绑定后只能使用该卡进行投资和提现<br>
+          若有疑问请联系客服400-1018-876</p>
       </div>
-      <p class="bank_desc">只能帮到一张储蓄卡<br>
-        绑定后只能使用该卡进行投资和提现<br>
-        若有疑问请联系客服400-1018-876</p>
     </div>
 </template>
 
@@ -53,11 +55,11 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
    @import '../../style/mixin';
-   .my_bank{margin-top: 1.95rem;padding-top: 0.55rem;}
+   .my_bank{padding-top: 2.5rem;}
    .bg100{
      -webkit-background-size:100% 100%;
      background-size:100% 100%;}
-  .bank_info{margin: 0 0.85rem 0.55rem;background-image: url("../../images/bank/yinhangka@2x.png");height: 7.66rem;padding-top: 1.15rem;
+  .bank_info{margin: 0 0.85rem 0.55rem;background-image: url("../../../static/images/bank/yinhangka@2x.png");height: 7.66rem;padding-top: 1.15rem;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;}

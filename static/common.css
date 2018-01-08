@@ -46,6 +46,14 @@ input[type="button"], input[type="submit"], input[type="search"], input[type="re
 
 textarea { -webkit-appearance: none;}
 
+input::-webkit-input-placeholder {color: #c8c8c8;}
+
+input:-moz-placeholder {color:#c8c8c8;}
+
+input::-moz-placeholder {color:#c8c8c8;}
+
+input:-ms-input-placeholder {color:#c8c8c8;}
+
 html,body{
   height: 100%;
   width: 100%;
