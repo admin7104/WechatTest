@@ -7,24 +7,29 @@
     </head-top>
     <div class="login_body">
       <img class="top_img" src="../../../static/images/login/top_img.png">
-      <form>
-        <input name="" class="phone bgImg" placeholder="请输入手机号码">
-        <p class="psd_bg"><input name="" class="password bgImg" placeholder="请输入登录密码"><i class="close"></i></p>
+      <div class="login_form">
+        <input name="" class="phone bgImg" v-model="phone" placeholder="请输入手机号码">
+        <p class="psd_bg"><input name="" v-model="password" :type="pwdShow==true?'text':'password'" class="password bgImg" placeholder="请输入登录密码"><i @click="pwdShow=!pwdShow" :class="pwdShow==true?'open':'close'"></i></p>
         <p class="forget_psd"><router-link to="">忘记密码</router-link></p>
-        <button class="login_btn">登录</button>
+        <button @click="login" class="login_btn">登录</button>
         <p class="to_reg"><router-link :to="{path: '/register'}">立即注册</router-link>,领888元红包</p>
         <p class="text">——————<span>客服电话</span>——————<br>400-101-8867(9:00-18:00)</p>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import headTop from '@/components/header/head'
+  import {mapState} from 'vuex'
+  import {setStore,getStore} from '@/utils/mUtils'
   export default {
     data: function () {
       return {
-          headTitle: ""
+        headTitle: "",
+        phone:'15158866411',
+        password:'121212qw',
+        pwdShow: false
       }
     },
     mounted(){
@@ -38,6 +43,9 @@
       getEleById(id){
         return document.getElementById(id);
       },
+      login(){
+        setStore('loginName',this.phone);
+      }
     }
   }
 </script>
@@ -53,7 +61,7 @@
       padding-top: 1.95rem;
       text-align: center;
     }
-    form{
+    .login_form{
       width: 12.8936rem;
       margin: 0 auto;
     }

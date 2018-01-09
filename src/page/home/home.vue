@@ -59,6 +59,7 @@
   import footerGuide from '@/components/footer/footerGuide'
   import '../../../static/common.css'
   import {mapState} from 'vuex'
+  import {getStore} from '@/utils/mUtils'
   export default {
     data: function () {
       return {
@@ -118,7 +119,7 @@
 
         }
       });
-      console.log(this.geohash)
+      console.log(getStore('loginName'))
     },
     computed:{
       ...mapState([
