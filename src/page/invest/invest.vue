@@ -73,7 +73,7 @@
             progressValue:0.4
           }
         ],
-        listcar:[
+        listCar:[
           {
             projectName:'新客专享第00341期',
             tag:['期限短','收益高'],
@@ -105,11 +105,7 @@
             progressValue:0.1
           }
         ],
-        projectList:[{
-          projectName:'新客专享第00341期',
-          tag:['期限短','收益高'],
-          progressValue:0.2
-        }],
+        projectList:[],
         indeterminate: false,
         counterClockwise: false,
         hideBackground: false,
@@ -119,12 +115,10 @@
         const type = this.$route.query.type;
         if(type!==undefined){
           this.currentType = type;
-          type=='new'?this.projectList = this.list:this.projectList = this.listcar;
-          return;
-        }else{
-          this.projectList = this.list;
-          return;
+          this.projectList = this.listCar;
+          return false;
         }
+        this.projectList = this.list;
     },
     components:{
       headTop,
@@ -134,7 +128,7 @@
       changeType(type){
           this.currentType = type;
           this.$router.push({path:'invest',query:{type:type}});
-          type=='new'?this.projectList = this.list:this.projectList = this.listcar;
+          type==='car'?this.projectList = this.listCar:this.projectList = this.list;
       },
       loadMore() {
         this.loading = true;

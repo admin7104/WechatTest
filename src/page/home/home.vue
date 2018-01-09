@@ -58,6 +58,7 @@
   import Banner from '@/components/common/Banner'
   import footerGuide from '@/components/footer/footerGuide'
   import '../../../static/common.css'
+  import {mapState} from 'vuex'
   export default {
     data: function () {
       return {
@@ -117,6 +118,12 @@
 
         }
       });
+      console.log(this.geohash)
+    },
+    computed:{
+      ...mapState([
+        'geohash'
+      ])
     },
     methods:{
     },
