@@ -119,7 +119,10 @@
 
         }
       });
+<<<<<<< HEAD
       console.log(getStore('loginName'))
+=======
+>>>>>>> 首页产品位置调整
     },
     computed:{
       ...mapState([
@@ -136,7 +139,7 @@
 </script>
 <style lang="scss" scoped>
   @import '../../style/mixin.scss';
-  .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;position: absolute;left: 2.5rem;}
+  .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;position: absolute;left: 1rem;}
   .mc{
     color: $mc;
   }
@@ -168,14 +171,23 @@
   }
   .project-content{
     overflow: hidden;
+    padding: 0 0.6rem 0 0.6rem;
+    .project-container{
+      width: 100%;
+    }
+    .swiper-slide {
+      width: 13rem;
+      background-position: center;
+      background-size: cover;
+      height: 14rem;
+    }
   }
   .project-item{
     background: #fff;
-    margin: 1rem;
     margin-top: .6rem;
-    padding: .6rem;
-    padding-top: 0;
+    padding: 0 .6rem .6rem;
     border-radius: 0.2rem;
+    width: 100%;
   }
   .project-item h3{
     font: 0.58rem/1.2rem "Microsoft YaHei";
