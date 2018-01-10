@@ -119,10 +119,7 @@
 
         }
       });
-<<<<<<< HEAD
       console.log(getStore('loginName'))
-=======
->>>>>>> 首页产品位置调整
     },
     computed:{
       ...mapState([
