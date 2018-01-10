@@ -16,6 +16,8 @@ const bind_bank = r => require.ensure([], () => r(require('../page/bank/bind_ban
 const my_bank = r => require.ensure([], () => r(require('../page/bank/my_bank')), 'my_bank');
 const bank_list = r => require.ensure([], () => r(require('../page/bank/bank_list')), 'bank_list');
 const capital_details = r => require.ensure([], () => r(require('../page/account/children/capital_details')), 'capital_details');
+const financial_coupon = r => require.ensure([], () => r(require('../page/account/children/financial_coupon')), 'financial_coupon');
+const activity_page = r => require.ensure([], () => r(require('../page/account/children/activity_page')), 'activity_page');
 
 const recharge = r => require.ensure([], () => r(require('../page/recharge_withdraw/recharge')), 'recharge');
 const withdraw = r => require.ensure([], () => r(require('../page/recharge_withdraw/withdraw')), 'withdraw');
@@ -52,8 +54,16 @@ export default new Router({
       component: account_infos
     },
     {
-      path:'/invest_list',
-      component: invest_list
+      path:'/account_infos',
+      component: account_infos
+    },
+    {
+      path:'/financial_coupon',
+      component: financial_coupon
+    },
+    {
+      path:'/activity_page',
+      component: activity_page
     },
     {
       path:'/invest_item',

@@ -18,8 +18,10 @@
               <input class="withdraw_money" placeholder="请输入提现金额，最低100元">
             </div>
           </div>
-          <input type="button" class="withdraw_btn" value="确认">
-          <a class="forget_pwd">忘记交易密码？</a>
+          <div style="padding: 1.7rem 0.85rem 0.38rem;">
+            <input type="button" class="withdraw_btn" value="确认">
+            <a class="forget_pwd">忘记交易密码？</a>
+          </div>
         </div>
       </div>
     </div>

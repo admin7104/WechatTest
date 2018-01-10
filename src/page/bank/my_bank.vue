@@ -32,7 +32,7 @@ export default {
         }
     },
     mounted(){
-      document.body.style.backgroundColor = "#fff";
+      document.getElementById("app").style.backgroundColor = "#fff";
       this.cardNum = CardFormat(this.cardNum);
     },
     components:{
