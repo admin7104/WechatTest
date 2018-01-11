@@ -44,16 +44,13 @@
       headTop
     },
     mounted(){
-      this.getEleById("headerTop").style.background = '#fff';
-      this.getEleById("headerTitle").style.color = '#333';
-      this.getEleById("extra_ul").style.display = 'none';
+      this.$("#headerTop")[0].style.background = '#fff';
+      this.$("#headerTitle")[0].style.color = '#333';
+      this.$("#extra_ul")[0].style.display = 'none';
     },
     methods:{
-      getEleById(id){
-          return document.getElementById(id);
-      },
       changeState(){
-        this.getEleById("extra_ul").style.display = 'inherit';
+        this.$("#extra_ul")[0].style.display = 'inherit';
         this.close = !this.close;
       }
     }

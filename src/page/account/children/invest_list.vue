@@ -79,16 +79,13 @@
       headTop
     },
     mounted(){
-      this.getEleById("app").style.background = '#f1f1f1';
-      this.getEleById("headerTop").style.background = '#fff';
-      this.getEleById("headerTitle").style.color = '#333';
+      this.$("#app")[0].style.background = '#f1f1f1';
+      this.$("#headerTop")[0].style.background = '#fff';
+      this.$("#headerTitle")[0].style.color = '#333';
       if(this.$route.query.selected!=undefined)
         this.selected = this.$route.query.selected;
     },
     methods:{
-      getEleById(id){
-          return document.getElementById(id);
-      },
       changeType(selected){
           this.selected = selected;
           this.$router.push({path:'/invest_list',query:{selected:selected}});

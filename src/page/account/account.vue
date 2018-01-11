@@ -11,11 +11,11 @@
       </div>
       <div class="head">
         <div class="col-2 head_icon">
-          <router-link :to="{path: '/account_infos'}" >
+          <router-link :to="{path: loginName==null?'/login':'/account_infos'}" >
             <img src="../../../static/images/account/head_icon.png"/>
           </router-link>
         </div>
-        <div class="col-8">13788886688</div>
+        <div class="col-8">{{loginName==null?'未登录':loginName}}</div>
         <div class="col-2 mail_icon"><img src="../../../static/images/account/mail_icon.png"/></div>
         <div class="clear"></div>
       </div>
@@ -105,14 +105,19 @@
 
 <script>
   import footerGuide from '@/components/footer/footerGuide'
+  import {getStore} from '@/utils/mUtils'
   export default {
     data: function () {
       return {
-          headTitle: "我的账户"
+        headTitle: "我的账户",
+        loginName: ''
       }
     },
     components:{
       footerGuide
+    },
+    mounted(){
+        this.loginName = getStore('loginName')
     }
   }
 </script>

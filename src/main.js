@@ -11,6 +11,7 @@ import http from 'vue-resource'
 import 'mint-ui/lib/style.css';
 import '../static/common.css';
 import '../static/animate.css';
+import $ from 'jquery'
 import VueProgress from 'vue-progress-path'
 import CustomShapes from './utils/custom_shapes'
 
@@ -24,6 +25,7 @@ Vue.use(mintUI);
 Vue.use(VueProgress);
 Vue.use(CustomShapes);
 Vue.prototype.$http = http;
+Vue.prototype.$ = $;
 
 /* eslint-disable no-new */
 new Vue({

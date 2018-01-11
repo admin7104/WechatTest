@@ -25,6 +25,8 @@ const withdraw = r => require.ensure([], () => r(require('../page/recharge_withd
 const login = r => require.ensure([], () => r(require('../page/entrance/login')), 'login');
 const register = r => require.ensure([], () => r(require('../page/entrance/register')), 'register');
 
+const alert_page = r => require.ensure([], () => r(require('../page/prompt/alert_page.vue')), 'alert_page');
+
 
 export default new Router({
   mode:'history',
@@ -100,6 +102,10 @@ export default new Router({
     {
       path:'/register',
       component: register
+    },
+    {
+      path:'/alert_page',
+      component: alert_page
     }
   ]
 })

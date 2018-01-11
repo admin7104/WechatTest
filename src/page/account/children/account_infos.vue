@@ -50,7 +50,7 @@
         value="255M">
       </mt-cell>
       <div class="logout_bg">
-        <mt-button>退出登录</mt-button>
+        <mt-button @click="logout">退出登录</mt-button>
       </div>
     </div>
   </div>
@@ -58,6 +58,7 @@
 
 <script>
   import headTop from '@/components/header/head'
+  import {getStore,removeStore} from '@/utils/mUtils'
   export default {
     data: function () {
       return {
@@ -65,10 +66,15 @@
       }
     },
     mounted(){
-        document.getElementById("app").style.background = "#eee";
+        this.$("#app")[0].style.background = "#eee";
     },
     components:{
-      headTop
+      headTop,
+    },
+    methods:{
+        logout(){
+          removeStore('loginName',getStore('loginName'));
+        }
     }
   }
 </script>

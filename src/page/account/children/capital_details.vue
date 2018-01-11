@@ -35,15 +35,12 @@
       }
     },
     mounted(){
-      this.getEleById("app").style.background = '#fff';
+      this.$("#app")[0].style.background = '#fff';
     },
     components:{
       headTop
     },
     methods:{
-      getEleById(id){
-        return document.getElementById(id);
-      },
       loadMore() {
         this.loading = true;
         setTimeout(() => {

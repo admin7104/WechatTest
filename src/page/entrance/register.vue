@@ -30,17 +30,14 @@
       }
     },
     mounted(){
-      this.getEleById("headerTop").style.background = '#fff';
-      this.getEleById("app").style.background = '#fff';
-      this.getEleById("headerTitle").style.color = '#282828';
+      this.$("#headerTop")[0].style.background = '#fff';
+      this.$("#app")[0].style.background = '#fff';
+      this.$("#headerTitle")[0].style.color = '#282828';
     },
     components:{
       headTop
     },
     methods:{
-      getEleById(id){
-        return document.getElementById(id);
-      }
     }
   }
 </script>

@@ -33,16 +33,13 @@
       }
     },
     mounted(){
-      this.getEleById("headerTop").style.background = '#fff';
-      this.getEleById("app").style.background = '#fff';
+      this.$("#headerTop")[0].style.background = '#fff';
+      this.$("#app")[0].style.background = '#fff';
     },
     components:{
       headTop
     },
     methods:{
-      getEleById(id){
-        return document.getElementById(id);
-      },
       login(){
         setStore('loginName',this.phone);
       }
