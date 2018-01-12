@@ -64,9 +64,20 @@ export default {
     -moz-box-sizing: border-box;
     box-sizing: border-box;}
   .bank_info span,.bank_info div{color: $fc;font-size: 0.6rem;}
-  .top_text{height: 50px;line-height: 50px;padding: 0 0.85rem;}
-  .bank_info .top_text span{font-size: 0.64rem;}
-  .bank_info .top_text span:nth-child(2){margin-left: 0.43rem}
+  .top_text{
+    height: 50px;
+    line-height: 50px;
+    padding: 0 0.85rem;
+    img{
+      @include wh(2.1276rem,2.1276rem);
+    }
+    span{
+      font-size: 0.64rem;
+    }
+    span:nth-child(2){
+      margin-left: 0.43rem;
+    }
+  }
   .bank_info .card_num{font-size: 1.02rem;margin: 0.64rem 0 1.06rem 0.4rem;text-align: center;font-weight: bold;}
   .limit_money{margin-left: 0.6rem;}
   .bank_desc{font-size: 0.55rem;  margin: 0 0.85rem;  color: #666;}

@@ -105,6 +105,9 @@
         usedImg: require('../../../../static/images/account/coupon/overdue.png')
       }
     },
+    mounted(){
+      this.$("#app")[0].style.backgroundColor = "#f1f1f1";
+    },
     components:{
       headTop
     },

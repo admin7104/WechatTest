@@ -74,7 +74,7 @@
           <router-link :to="{path: '/register'}" class="col-4">
             <li><img src="../../../static/images/account/icon_5.png"><p>推荐有礼</p></li>
           </router-link>
-          <router-link :to="{path: '/recharge'}" class="col-4">
+          <router-link :to="{path: '/alert_page',query:{'message':'恭喜，提现成功！','msgImg':'recharge'}}" class="col-4">
             <li><img src="../../../static/images/account/icon_6.png"><p>智能投资</p></li>
           </router-link>
         </ul>
