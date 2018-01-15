@@ -48,6 +48,10 @@ export default new Router({
       component: invest
     },
     {
+      path:'/invest_list',
+      component: invest_list
+    },
+    {
       path:'/account',
       component: account
     },

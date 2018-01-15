@@ -6,8 +6,8 @@ import router from './router'
 import mintUI from 'mint-ui'
 import store from './invest/'
 import './utils/rem'
+import './utils/md5'
 import FastClick from 'fastclick'
-import http from 'vue-resource'
 import 'mint-ui/lib/style.css';
 import '../static/common.css';
 import '../static/animate.css';
@@ -24,8 +24,9 @@ Vue.config.productionTip = false;
 Vue.use(mintUI);
 Vue.use(VueProgress);
 Vue.use(CustomShapes);
-Vue.prototype.$http = http;
 Vue.prototype.$ = $;
+
+Vue.prototype.rootHttp = 'http://test.zhcsjr.com:8080/appnew';
 
 /* eslint-disable no-new */
 new Vue({

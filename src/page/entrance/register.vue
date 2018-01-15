@@ -2,18 +2,18 @@
   <div class="login">
     <head-top :head-title="headTitle" is-back="true" is-gray="true" @go-page="$router.go(-1)"></head-top>
     <div class="login_body">
-      <form>
-        <p class="phone_bg"><span>手机号</span><input name="" class="phone bgImg" maxlength="11" placeholder="请输入手机号码"></p>
+      <div class="register_form">
+        <p class="phone_bg"><span>手机号</span><input name="" class="phone bgImg" maxlength="11" placeholder="请输入手机号码" v-model="mobileNum"></p>
         <p class="code_bg"><span>验证码</span><input name="" class="code bgImg" maxlength="6" placeholder="请输入验证码"><button>获取验证码</button></p>
         <p class="pwd_bg"><span>设置密码</span><input name="" :type="pwdShow1==true?'text':'password'" class="password1 bgImg" placeholder="请输入8-16位字母数字组合密码"><i :class="pwdShow1==true?'open':'close'" @click="pwdShow1=!pwdShow1"></i></p>
         <p class="pwd2_bg"><span>确认密码</span><input name="" :type="pwdShow2==true?'text':'password'" class="password2 bgImg" placeholder="请输入8-16位字母数字组合密码"><i :class="pwdShow2==true?'open':'close'" @click="pwdShow2=!pwdShow2"></i></p>
         <p class="invite_bg"><span>邀请人</span><input name="" class="invite bgImg" placeholder="请输入邀请人手机号码(选填)"></p>
-        <button :class="ifChecked==true?'reg_btn':'reg_btn gray'">登录</button>
+        <button :class="ifChecked==true?'reg_btn':'reg_btn gray'">注册</button>
         <div class="agree_div">
           <input @click="ifChecked=!ifChecked" type="checkbox" v-show="false" id="myCheck"><label class="left" for="myCheck"></label>
           <p class="agree left">我已同意并阅读<router-link :to="{path: '/agreement/001'}">《XXXXX协议》</router-link>和<router-link :to="{path: '/agreement/001'}">《XXXXX协议》</router-link></p>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -26,13 +26,14 @@
         headTitle: "注册",
         ifChecked:false,
         pwdShow1: false,
-        pwdShow2: false
+        pwdShow2: false,
+        mobileNum:''
       }
     },
     mounted(){
       this.$("#headerTop")[0].style.background = '#fff';
       this.$("#app")[0].style.background = '#fff';
-      this.$("#headerTitle")[0].style.color = '#282828';
+      this.$("#headerTitle")[0].style.color = '#282828';c
     },
     components:{
       headTop
@@ -50,7 +51,7 @@
       padding-top: 1.95rem;
       text-align: center;
     }
-    form{
+    .register_form{
       width: 14.1702rem;
       margin: 1.5319rem auto 0;
       >p{
