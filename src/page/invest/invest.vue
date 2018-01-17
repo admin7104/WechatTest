@@ -109,6 +109,8 @@
         indeterminate: false,
         counterClockwise: false,
         hideBackground: false,
+        localHttp:'http://172.16.20.25:8080/appnew',
+        rootHttp: 'http://test.zhcsjr.com:8080/appnew',
       }
     },
     mounted(){
@@ -119,6 +121,7 @@
           return false;
         }
         this.projectList = this.list;
+        this.getMd5Json();
     },
     components:{
       headTop,
@@ -139,6 +142,31 @@
           }
           this.loading = false;
         }, 2500);
+      },
+      GetJsonData() {
+        const mobile = this.mobileNum;
+        let json = {
+          mobile: mobile,
+          tradecode: "USER_REGISTER"
+        };
+        json = JSON.stringify(json)+"fewief3983e337cjer3DFEWJD32212@@*^DEJUsdu226";
+        let sign = this.md5.hex(json);
+        json = {
+          mobile: mobile,
+          sign :sign,
+          tradecode: "USER_REGISTER"
+        };
+        return json;
+      },
+      getMd5Json(){
+          console.log(this.GetJsonData());
+          /*this.$http({
+            method: 'post',
+            url: this.rootHttp+'/appTuserSign/getUserSignMessage.ht'
+          }).then(function(response){
+              console.log(111);
+              console.log(response);
+          })*/
       }
     }
   }

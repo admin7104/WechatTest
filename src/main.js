@@ -6,7 +6,8 @@ import router from './router'
 import mintUI from 'mint-ui'
 import store from './invest/'
 import './utils/rem'
-import './utils/md5'
+import md5 from 'js-md5';
+import axios from 'axios'
 import FastClick from 'fastclick'
 import 'mint-ui/lib/style.css';
 import '../static/common.css';
@@ -25,6 +26,8 @@ Vue.use(mintUI);
 Vue.use(VueProgress);
 Vue.use(CustomShapes);
 Vue.prototype.$ = $;
+Vue.prototype.md5 = md5;
+Vue.prototype.$http = axios;
 
 Vue.prototype.rootHttp = 'http://test.zhcsjr.com:8080/appnew';
 
