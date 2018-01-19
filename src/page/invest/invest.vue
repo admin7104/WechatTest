@@ -14,9 +14,9 @@
         infinite-scroll-distance="10">
         <li v-for="item in projectList">
           <router-link :to="{path: '/invest_detail'}">
-            <div :class="item.progressValue==1?'project_item project_item_f':'project_item'">
+            <div :class="item.pcomplete==100?'project_item project_item_f':'project_item'">
               <div class="p_head">
-                <h3 class="projectName">{{item.projectName}}<span :class="item.progressValue==1?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
+                <h3 class="projectName">{{item.pname}}<span :class="item.pcomplete==100?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
               </div>
               <div class="ib info_left">
                 <p class="percent">15.<span>00%</span><span class="extra">+3.00%</span></p>
@@ -26,9 +26,9 @@
                 <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">15天</span></p>
                 <p class="lh"><span class="desc">可投金额</span><span class="text">86,000.00元</span></p>
               </div>
-              <p class="progress_value" v-if="item.progressValue!=1">{{item.progressValue*100}}%</p>
-              <loading-progress v-if="item.progressValue!=1"
-                :progress="1-item.progressValue"
+              <p class="progress_value" v-if="item.pcomplete!=100&&item.pstatusId!='5'&&item.pstatusId!='6'&&item.pstatusId!='7'">{{item.pcomplete}}%</p>
+              <loading-progress v-if="item.pcomplete!=100&&item.pstatusId!='5'&&item.pstatusId!='6'&&item.pstatusId!='7'"
+                :progress="item.pcomplete==0?1-0.00000000001:1-item.pcomplete/100"
                 :indeterminate="indeterminate"
                 :counter-clockwise="counterClockwise"
                 :hide-background="hideBackground"
@@ -38,9 +38,9 @@
                 background="circle_bg"
                 progress_bg = "progress2"
               />
-              <div v-if="item.progressValue==1" class="sell_status sold"></div>
-              <!--<div class="sell_status repaid"></div>
-              <div class="sell_status repaying"></div>-->
+              <div class="sell_status sold" v-if="item.pcomplete==100&&item.pstatusId=='5'"></div>
+              <div class="sell_status repaid" v-if="item.pstatusId=='7'"></div>
+              <div class="sell_status repaying" v-if="item.pstatusId=='6'"></div>
             </div>
           </router-link>
         </li>
@@ -114,20 +114,35 @@
       }
     },
     mounted(){
-        const type = this.$route.query.type;
+        /*const type = this.$route.query.type;
         if(type!==undefined){
           this.currentType = type;
           this.projectList = this.listCar;
           return false;
         }
-        this.projectList = this.list;
-        this.getMd5Json();
+        this.projectList = this.list;*/
+        this.getProjectList();
     },
     components:{
       headTop,
       footerGuide
     },
     methods:{
+      filters:{      //数据过滤器
+        format:function(value){
+          var html,_val;
+          value =Number(value).toFixed(2);
+          if(value==0){
+            value=0;
+            return html = "￥<span>0</span>";
+          }else if(value.split('.')[1].substring(1)==0){
+            value = Number(value).toFixed(1);
+          }
+          _val = value.split('.');
+          return html = '￥<span>'+_val[0]+'</span><em>.'+_val[1]+'</em>';
+        }
+
+      },
       changeType(type){
           this.currentType = type;
           this.$router.push({path:'invest',query:{type:type}});
@@ -144,29 +159,40 @@
         }, 2500);
       },
       GetJsonData() {
-        const mobile = this.mobileNum;
         let json = {
-          mobile: mobile,
-          tradecode: "USER_REGISTER"
+          proType: '7',
+          current_page: '1',
+          pageSizes: '8',
         };
         json = JSON.stringify(json)+"fewief3983e337cjer3DFEWJD32212@@*^DEJUsdu226";
         let sign = this.md5.hex(json);
         json = {
-          mobile: mobile,
-          sign :sign,
-          tradecode: "USER_REGISTER"
+          proType: '0',
+          current_page: '1',
+          pageSize: '7',
+          logintype:'weixin',
+          sign :'110553762ab1f22f6c8fff8744f46616',
         };
         return json;
       },
-      getMd5Json(){
-          console.log(this.GetJsonData());
-          /*this.$http({
-            method: 'post',
-            url: this.rootHttp+'/appTuserSign/getUserSignMessage.ht'
+      getProjectList(){
+          let that = this;
+          console.log(JSON.stringify(this.GetJsonData()));
+          let obj = this.GetJsonData();
+          this.$http.post('/test/app/appFinancing/getFinancingProjectsList.ht',this.qs.stringify({params:JSON.stringify(obj)}),
+              {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+              },
           }).then(function(response){
-              console.log(111);
-              console.log(response);
-          })*/
+              let data = response.data;
+              console.log(data);
+              if(data.retcode === '00000000'){
+                that.projectList = data.list;
+              }
+          }).catch(function (err) {
+            console.log(err);
+          });
       }
     }
   }
