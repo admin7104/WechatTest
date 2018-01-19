@@ -24,8 +24,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 # 笔记
 ## axiox 发送post请求java后台一直不能接收到参数（2018/1/19）
 
-``` 
-> 解决
+```javascript
 this.$http.post('/api/app/common/isExistLoginName.ht',this.qs.stringify({params:JSON.stringify(obj)}),
     /*'/api/app/appFinancing/getFinancingProjectsList.ht',*/{
     headers: {
