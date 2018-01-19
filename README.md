@@ -20,3 +20,19 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 "# WechatTest" 
+
+笔记
+###axiox 发送post请求java后台一直不能接收到参数（2018/1/19）
+
+```解决
+this.$http.post('/api/app/common/isExistLoginName.ht',this.qs.stringify({params:JSON.stringify(obj)}),
+    /*'/api/app/appFinancing/getFinancingProjectsList.ht',*/{
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+}).then(function(response){
+  console.log(response);
+}).catch(function (err) {
+  console.log(err);
+});
+```
