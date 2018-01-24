@@ -27,89 +27,116 @@ const register = r => require.ensure([], () => r(require('../page/entrance/regis
 
 const alert_page = r => require.ensure([], () => r(require('../page/prompt/alert_page.vue')), 'alert_page');
 
+const routes = [
+  {
+    path: '/',
+    redirect:'/home'
+  },
+  {
+    path:'/home',
+    component: home
+  },
+  {
+    path:'/invest_detail',
+    component: invest_detail
+  },
+  {
+    path:'/invest',
+    component: invest
+  },
+  {
+    path:'/invest_list',
+    component: invest_list
+  },
+  {
+    path:'/account',
+    component: account
+  },
+  {
+    path:'/account_infos',
+    component: account_infos
+  },
+  {
+    path:'/account_infos',
+    component: account_infos
+  },
+  {
+    path:'/financial_coupon',
+    component: financial_coupon
+  },
+  {
+    path:'/activity_page',
+    component: activity_page
+  },
+  {
+    path:'/invest_item',
+    component: invest_item
+  },
+  {
+    path:'/my_bank',
+    component: my_bank
+  },
+  {
+    path:'/bind_bank',
+    component: bind_bank
+  },
+  {
+    path:'/bank_list',
+    component: bank_list
+  },
+  {
+    path:'/capital_details',
+    component: capital_details
+  },
+  {
+    path:'/recharge',
+    component: recharge
+  },
+  {
+    path:'/withdraw',
+    component: withdraw
+  },
+  {
+    path:'/login',
+    component: login
+  },
+  {
+    path:'/register',
+    component: register
+  },
+  {
+    path:'/alert_page',
+    component: alert_page
+  }
+];
 
-export default new Router({
+// 页面刷新时，重新赋值token
+if (window.localStorage.getItem('token')) {
+  store.commit(types.LOGIN, window.localStorage.getItem('token'))
+}
+
+const router =  new Router({
   mode:'history',
-  routes: [
-    {
-      path: '/',
-      redirect:'/home'
-    },
-    {
-      path:'/home',
-      component: home
-    },
-    {
-      path:'/invest_detail',
-      component: invest_detail
-    },
-    {
-      path:'/invest',
-      component: invest
-    },
-    {
-      path:'/invest_list',
-      component: invest_list
-    },
-    {
-      path:'/account',
-      component: account
-    },
-    {
-      path:'/account_infos',
-      component: account_infos
-    },
-    {
-      path:'/account_infos',
-      component: account_infos
-    },
-    {
-      path:'/financial_coupon',
-      component: financial_coupon
-    },
-    {
-      path:'/activity_page',
-      component: activity_page
-    },
-    {
-      path:'/invest_item',
-      component: invest_item
-    },
-    {
-      path:'/my_bank',
-      component: my_bank
-    },
-    {
-      path:'/bind_bank',
-      component: bind_bank
-    },
-    {
-      path:'/bank_list',
-      component: bank_list
-    },
-    {
-      path:'/capital_details',
-      component: capital_details
-    },
-    {
-      path:'/recharge',
-      component: recharge
-    },
-    {
-      path:'/withdraw',
-      component: withdraw
-    },
-    {
-      path:'/login',
-      component: login
-    },
-    {
-      path:'/register',
-      component: register
-    },
-    {
-      path:'/alert_page',
-      component: alert_page
+  routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(r => r.meta.requireAuth)) {
+    if (store.state.token) {
+      next();
     }
-  ]
-})
+    else {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  }
+  else {
+    next();
+  }
+});
+
+export default router;
+
+

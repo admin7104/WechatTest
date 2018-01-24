@@ -9,7 +9,6 @@
     <div class="project_list">
       <ul
         v-infinite-scroll="loadMore"
-        infinite-scroll-immediate-check="true"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
         <li v-for="item in projectList">
@@ -109,76 +108,65 @@
         indeterminate: false,
         counterClockwise: false,
         hideBackground: false,
-        localHttp:'http://172.16.20.25:8080/appnew',
-        rootHttp: 'http://test.zhcsjr.com:8080/appnew',
+        currentPage: 1
       }
     },
     mounted(){
-        /*const type = this.$route.query.type;
+        const type = this.$route.query.type;
         if(type!==undefined){
-          this.currentType = type;
-          this.projectList = this.listCar;
+          this.getProjectList(this.currentPage);
           return false;
         }
-        this.projectList = this.list;*/
-        this.getProjectList();
+        this.getProjectList(this.currentPage);
+      // 注册scroll事件并监听
+      let _this = this;
+      window.addEventListener('scroll',function(){
+        // 判断是否滚动到底部
+        /*if(document.body.scrollTop + window.innerHeight >= document.body.offsetHeight) {
+          _this.loading = true;
+          // 如果开关打开则加载数据
+          if(_this.loading==true){
+            // 将开关关闭
+            _this.loading = false;
+            _this.getProjectList(this.currentPage++);
+          }
+        }*/
+      });
     },
     components:{
       headTop,
       footerGuide
     },
     methods:{
-      filters:{      //数据过滤器
-        format:function(value){
-          var html,_val;
-          value =Number(value).toFixed(2);
-          if(value==0){
-            value=0;
-            return html = "￥<span>0</span>";
-          }else if(value.split('.')[1].substring(1)==0){
-            value = Number(value).toFixed(1);
-          }
-          _val = value.split('.');
-          return html = '￥<span>'+_val[0]+'</span><em>.'+_val[1]+'</em>';
-        }
-
-      },
       changeType(type){
           this.currentType = type;
           this.$router.push({path:'invest',query:{type:type}});
-          type==='car'?this.projectList = this.listCar:this.projectList = this.list;
+          this.getProjectList(this.currentPage);
       },
       loadMore() {
         this.loading = true;
         setTimeout(() => {
-          let last = this.projectList[this.projectList.length - 1];
-          for (let i = 1; i <= 10; i++) {
-            this.projectList.push(last + i);
-          }
+          this.getProjectList(++this.currentPage);
           this.loading = false;
         }, 2500);
       },
-      GetJsonData() {
-        let json = {
-          proType: '7',
-          current_page: '1',
-          pageSizes: '8',
-        };
+      GetJsonData(currentPage) {
+        let json = {};
         json = JSON.stringify(json)+"fewief3983e337cjer3DFEWJD32212@@*^DEJUsdu226";
         let sign = this.md5.hex(json);
         json = {
-          proType: '0',
-          current_page: '1',
-          pageSize: '7',
+          protype: 10,
+          current_page: currentPage,
+          pageSize: 8,
           logintype:'weixin',
-          sign :'110553762ab1f22f6c8fff8744f46616',
+          sign: sign
         };
         return json;
       },
-      getProjectList(){
+      getProjectList(currentPage){
+          this.loading = false;
           let that = this;
-          console.log(JSON.stringify(this.GetJsonData()));
-          let obj = this.GetJsonData();
+          let obj = this.GetJsonData(currentPage);
           this.$http.post('/test/app/appFinancing/getFinancingProjectsList.ht',this.qs.stringify({params:JSON.stringify(obj)}),
               {
               headers: {
@@ -186,9 +174,15 @@
               },
           }).then(function(response){
               let data = response.data;
-              console.log(data);
               if(data.retcode === '00000000'){
-                that.projectList = data.list;
+                  if(currentPage==1){
+                    that.projectList = data.list;
+                    console.log(data.list);
+                  }else{
+                    for(let i=0;i<data.list.length;i++){
+                      that.projectList.push(data.list[i]);
+                    }
+                  }
               }
           }).catch(function (err) {
             console.log(err);

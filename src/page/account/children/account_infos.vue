@@ -74,6 +74,7 @@
     methods:{
         logout(){
           removeStore('loginName',getStore('loginName'));
+          this.$router.push({path:'/account'});
         }
     }
   }

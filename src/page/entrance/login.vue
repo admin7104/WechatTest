@@ -22,7 +22,7 @@
 <script>
   import headTop from '@/components/header/head'
   import {mapState} from 'vuex'
-  import {setStore,getStore} from '@/utils/mUtils'
+  import {setStore,getStore,getPhone} from '@/utils/mUtils'
   export default {
     data: function () {
       return {
@@ -41,7 +41,25 @@
     },
     methods:{
       login(){
-        setStore('loginName',this.phone);
+          const json = {
+              loginname: this.phone,
+              phonetype: getPhone(),
+              deviceid: '',
+              locatio: '',
+              streamid: '',
+              loginpwd: this.md5.hex(this.password),
+              logintype:'weixin',
+          };
+          var that = this;
+          this.$http.post('/api/app/user/login.ht',this.qs.stringify({params:JSON.stringify(json)}))
+          .then(function (response) {
+              if(response.data.retcode=='00000000'){
+                  that.$router.push({path:'/account'});
+                  setStore('loginName',that.phone);
+              }else{
+                  console.log(response.data.retmsg)
+              }
+          });
       }
     }
   }

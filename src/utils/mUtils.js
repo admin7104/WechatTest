@@ -1,3 +1,4 @@
+import MobileDetect from '@/utils/mobile-detect.min'
 /**
  * 获取本地IP地址
  */
@@ -177,4 +178,37 @@ export const formatDate=(formatStr) =>
     time_str = time_str + formatArr[i];
   }
   return time_str;
+};
+
+export const getPhone=()=>{
+  let device_type = navigator.userAgent;//获取userAgent信息
+  let md = new MobileDetect(device_type);//初始化mobile-detect
+  let os = md.os();//获取系统
+  let model = "";
+  if (os == "iOS") {//ios系统的处理
+    os = md.os() + md.version("iPhone");
+  } else if (os == "AndroidOS") {//Android系统的处理
+    os = md.os() + md.version("Android");
+    /*let sss = device_type.split(";");
+     console.log(sss);
+     let i = sss.contains("Build/");
+     if (i > -1) {
+     model = sss[i].substring(0, sss[i].indexOf("Build/"));
+     }*/
+  }
+  model = md.mobile();
+  /*if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        console.log( position.coords.longitude );
+        console.log( position.coords.latitude );
+      },
+      function (e) {
+        throw(e.message);
+      }
+    )
+  }else{
+    console.log(222)
+  }*/
+  return os + "---" + model;//打印系统版本和手机型号
 };
