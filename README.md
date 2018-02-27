@@ -98,12 +98,13 @@ export default async(url = '', data = {}, type = 'POST', method = 'fetch') => {
 		})
 	}
 }
+
 ```
-##请求调用
+## 请求调用
 ```javascript
 export const login = (loginname,loginpwd) => fetch('/app/user/login.ht', {"loginname":loginname,"loginpwd":md5(loginpwd)});
 ```
-##在vue中是使用
+## 在vue中是使用
 ```javascript
 async login () {
   this.userInfo =  await login(this.phone,this.password);
@@ -111,7 +112,6 @@ async login () {
     this.RECORD_USERINFO(this.userInfo);//保存数据
 }
 ```
-
 ## 全局数据的储存【mapState 通过扩展运算符将store.state.userInfo映射直接映射到当前Vue的this对象上】（2018/2/27）
 ```javascript
 import {mapState,mapMutations} from 'vuex'
