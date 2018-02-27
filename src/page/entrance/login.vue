@@ -21,15 +21,17 @@
 
 <script>
   import headTop from '@/components/header/head'
-  import {mapState} from 'vuex'
-  import {setStore,getStore,getPhone} from '@/utils/mUtils'
+  import {setStore,getStore,getPhone} from '@/config/mUtils'
+  import {login} from '@/service/getData'
+  import {mapMutations} from 'vuex'
   export default {
     data: function () {
       return {
         headTitle: "",
         phone:'15158866411',
         password:'121212qw',
-        pwdShow: false
+        pwdShow: false,
+        userInfo: null
       }
     },
     mounted(){
@@ -40,26 +42,18 @@
       headTop
     },
     methods:{
-      login(){
-          const json = {
-              loginname: this.phone,
-              phonetype: getPhone(),
-              deviceid: '',
-              locatio: '',
-              streamid: '',
-              loginpwd: this.md5.hex(this.password),
-              logintype:'weixin',
-          };
-          var that = this;
-          this.$http.post('/api/app/user/login.ht',this.qs.stringify({params:JSON.stringify(json)}))
-          .then(function (response) {
-              if(response.data.retcode=='00000000'){
-                  that.$router.push({path:'/account'});
-                  setStore('loginName',that.phone);
-              }else{
-                  console.log(response.data.retmsg)
-              }
-          });
+      ...mapMutations([
+        'RECORD_USERINFO',
+      ]),
+      async login () {
+        this.userInfo =  await login(this.phone,this.password);
+        console.log(this.userInfo);
+        if(this.userInfo.retcode=='00000000'){
+          this.$router.push({path:'/account'});
+          this.RECORD_USERINFO(this.userInfo);
+        }else{
+          alert(this.userInfo.retmsg);
+        }
       }
     }
   }

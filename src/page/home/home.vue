@@ -59,7 +59,7 @@
   import footerGuide from '@/components/footer/footerGuide'
   import '../../../static/common.css'
   import {mapState} from 'vuex'
-  import {getStore} from '@/utils/mUtils'
+  import {getStore} from '@/config/mUtils'
   export default {
     data: function () {
       return {

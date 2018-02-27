@@ -6,7 +6,7 @@
       </section>
       <h1 class="header-title" v-if="headTitle">{{headTitle}}</h1>
     </header>
-    <div class="project-swiper-container">
+    <div class="swiper-container project-swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <div class="project_info">
@@ -79,14 +79,15 @@
         </div>
 
         <div class="swiper-slide" style="padding-top: 1.95rem;">
-          <div class="nav" v-model="active">
-            <mt-button :class="active=='tab-container1'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container1'">产品详情</mt-button>
-            <mt-button :class="active=='tab-container2'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container2'">相关证件</mt-button>
-            <mt-button :class="active=='tab-container3'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container3'">投资记录</mt-button>
-          </div>
+          <div>
+            <div class="nav" v-model="active">
+              <mt-button :class="active=='tab-container1'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container1'">产品详情</mt-button>
+              <mt-button :class="active=='tab-container2'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container2'">相关证件</mt-button>
+              <mt-button :class="active=='tab-container3'?'tab_btn tab_selected':'tab_btn'" @click ="active='tab-container3'">投资记录</mt-button>
+            </div>
 
-          <!-- tab-container -->
-          <div class="list_container">
+            <!-- tab-container -->
+            <div class="list_container">
             <mt-tab-container v-model="active" swipeable>
               <mt-tab-container-item id="tab-container1">
                 <div class="tab1">
@@ -141,6 +142,7 @@
               </mt-tab-container-item>
             </mt-tab-container>
           </div>
+          </div>
         </div>
       </div>
     </div>
@@ -159,7 +161,10 @@
         indeterminate: false,
         counterClockwise: false,
         hideBackground: false,
-        active: 'tab-container1'
+        active: 'tab-container1',
+        project: {},
+        projectInfo: {},
+        pdv: {},
       }
     },
     components:{
@@ -170,9 +175,27 @@
       setTimeout(function () {
         that.progress_value = 60;
       });
-      new Swiper('.project-swiper-container', {
-        direction:'vertical'
-      })
+      let mySwiper1 = Swiper('.project-swiper-container', {
+        direction: 'vertical',
+      });
+      let mySwiper2 = Swiper('.swiper-container-scrollbar', {
+        /*scrollbar: '.swiper-container-scrollbar .swiper-scrollbar',*/
+        direction: 'vertical',
+        /*slidesPerView: 'auto',
+        mousewheelControl: true,
+        freeMode: true,
+        nested: true*/
+      });
+    },
+    methods:{
+      async tenderDetail(sessionId,projectId){
+        this.project =  await myTenderDetail(sessionId,projectId);
+        if(this.project.retcode == success)
+        {
+          this.projectInfo = this.project.projectInfo;
+          this.pdv = this.project.pdv;
+        }
+      }
     }
   }
 </script>
@@ -208,6 +231,11 @@
   .project_info{
     background: #f7f9fb;
     padding-bottom: 1.102rem;
+  }
+  .swiper-slide{
+    overflow: auto;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
   }
   .block{
     background-repeat: no-repeat;

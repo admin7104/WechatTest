@@ -29,8 +29,7 @@
 
 <script>
 import headTop from '@/components/header/head'
-import {mapState, mapMutations} from 'vuex'
-import {PhoneFormat} from '../../utils/mUtils'
+import {PhoneFormat} from '@/config/mUtils'
 
 export default {
     data(){

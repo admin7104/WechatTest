@@ -19,8 +19,7 @@
 
 <script>
 import headTop from '@/components/header/head'
-import {mapState, mapMutations} from 'vuex'
-import {CardFormat} from '../../utils/mUtils'
+import {CardFormat} from '@/config/mUtils'
 
 export default {
     data(){

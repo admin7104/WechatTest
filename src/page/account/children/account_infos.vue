@@ -58,7 +58,7 @@
 
 <script>
   import headTop from '@/components/header/head'
-  import {getStore,removeStore} from '@/utils/mUtils'
+  import {getStore,removeStore} from '@/config/mUtils'
   export default {
     data: function () {
       return {

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {routerMode} from '../config/env'
 
 Vue.use(Router)
 
@@ -116,7 +117,7 @@ if (window.localStorage.getItem('token')) {
 }
 
 const router =  new Router({
-  mode:'history',
+  mode: routerMode,
   routes
 });
 

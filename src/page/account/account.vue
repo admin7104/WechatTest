@@ -105,7 +105,8 @@
 
 <script>
   import footerGuide from '@/components/footer/footerGuide'
-  import {getStore} from '@/utils/mUtils'
+  import {getStore} from '@/config/mUtils'
+  import {mapState,mapMutations} from 'vuex'
   export default {
     data: function () {
       return {
@@ -113,11 +114,29 @@
         loginName: ''
       }
     },
+    created(){
+      this.INIT_USERINFO();
+    },
     components:{
       footerGuide
     },
     mounted(){
-        this.loginName = getStore('loginName')
+        this.initData();
+    },
+    computed:{
+      ...mapState([
+        'userInfo',
+      ]),
+    },
+
+    methods: {
+      ...mapMutations([
+        'INIT_USERINFO'
+      ]),
+      initData() {
+        console.log(this.userInfo)
+        this.loginName = this.userInfo.loginname;
+      }
     }
   }
 </script>

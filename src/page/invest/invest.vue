@@ -18,12 +18,12 @@
                 <h3 class="projectName">{{item.pname}}<span :class="item.pcomplete==100?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
               </div>
               <div class="ib info_left">
-                <p class="percent">15.<span>00%</span><span class="extra">+3.00%</span></p>
+                <p class="percent">{{item.prateBase}}<span>{{item.text}}</span><span v-if="item.prateAppend" class="extra">+{{item.prateAppend}}.00%</span></p>
                 <p class="desc lh">历史年化收益率</p>
               </div>
               <div class="ib info_right">
-                <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">15天</span></p>
-                <p class="lh"><span class="desc">可投金额</span><span class="text">86,000.00元</span></p>
+                <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">{{item.pdeadline}}{{item.pdeadlineType}}</span></p>
+                <p class="lh"><span class="desc">可投金额</span><span class="text">{{item.ploan-item.ploanReal}}元</span></p>
               </div>
               <p class="progress_value" v-if="item.pcomplete!=100&&item.pstatusId!='5'&&item.pstatusId!='6'&&item.pstatusId!='7'">{{item.pcomplete}}%</p>
               <loading-progress v-if="item.pcomplete!=100&&item.pstatusId!='5'&&item.pstatusId!='6'&&item.pstatusId!='7'"
@@ -53,6 +53,8 @@
   import headTop from '@/components/header/head'
   import footerGuide from '@/components/footer/footerGuide'
   import '../../../static/common.css'
+  import {investlist} from '@/service/getData'
+  import {pdeadlineType} from '@/config/mUtils'
   export default {
     data: function () {
       return {
@@ -60,50 +62,6 @@
         selected:true,
         currentType:'new',
         loading:true,
-        list:[
-          {
-            projectName:'新客专享第00341期',
-            tag:['期限短','收益高'],
-            progressValue:0.2
-          },
-          {
-            projectName:'新客专享第00341期',
-            tag:['期限短','收益高'],
-            progressValue:0.4
-          }
-        ],
-        listCar:[
-          {
-            projectName:'新客专享第00341期',
-            tag:['期限短','收益高'],
-            progressValue:1
-          },
-          {
-            projectName:'新客专享第00341期',
-            tag:['期限短','收益高'],
-            progressValue:0.8
-          },
-          {
-            projectName:'新客专享第00341期',
-            tag:['期限短','收益高'],
-            progressValue:0.5
-          },
-          {
-            projectName:'新客专享第00341期',
-            tag:['期限短','收益高'],
-            progressValue:0.5
-          },
-          {
-            projectName:'新客专享第00341期',
-            tag:['期限短','收益高'],
-            progressValue:0.9
-          },
-          {
-            projectName:'新客专享第00341期',
-            tag:['期限短','收益高'],
-            progressValue:0.1
-          }
-        ],
         projectList:[],
         indeterminate: false,
         counterClockwise: false,
@@ -112,12 +70,6 @@
       }
     },
     mounted(){
-        const type = this.$route.query.type;
-        if(type!==undefined){
-          this.getProjectList(this.currentPage);
-          return false;
-        }
-        this.getProjectList(this.currentPage);
       // 注册scroll事件并监听
       let _this = this;
       window.addEventListener('scroll',function(){
@@ -132,62 +84,40 @@
           }
         }*/
       });
+      this.getProjectList(0);
     },
     components:{
       headTop,
       footerGuide
     },
     methods:{
+      async getProjectList (protype) {
+        const result = await investlist(protype,1);
+        if(result.retcode=='00000000'){
+          this.projectList = result.list;
+          for(let i=0;i<this.projectList.length;i++){
+            this.projectList[i].prateBase = this.projectList[i].prateBase;
+            this.projectList[i].text = ((this.projectList[i].prateBase-parseInt(this.projectList[i].prateBase)).toFixed(2)).substr(1)+'%';
+            this.projectList[i].pdeadlineType = pdeadlineType(this.projectList[i].pdeadlineType);
+          }
+        }
+        else alert(result.retmsg);
+        console.log(JSON.stringify(this.projectList[0]));
+      },
       changeType(type){
           this.currentType = type;
-          this.$router.push({path:'invest',query:{type:type}});
-          this.getProjectList(this.currentPage);
       },
       loadMore() {
         this.loading = true;
         setTimeout(() => {
-          this.getProjectList(++this.currentPage);
           this.loading = false;
         }, 2500);
       },
-      GetJsonData(currentPage) {
-        let json = {};
-        json = JSON.stringify(json)+"fewief3983e337cjer3DFEWJD32212@@*^DEJUsdu226";
-        let sign = this.md5.hex(json);
-        json = {
-          protype: 10,
-          current_page: currentPage,
-          pageSize: 8,
-          logintype:'weixin',
-          sign: sign
-        };
-        return json;
+    },
+    watch: {
+      currentType(curVal, oldVal) {
+        oldVal=='new'?this.getProjectList(11):this.getProjectList(0);
       },
-      getProjectList(currentPage){
-          this.loading = false;
-          let that = this;
-          let obj = this.GetJsonData(currentPage);
-          this.$http.post('/test/app/appFinancing/getFinancingProjectsList.ht',this.qs.stringify({params:JSON.stringify(obj)}),
-              {
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-              },
-          }).then(function(response){
-              let data = response.data;
-              if(data.retcode === '00000000'){
-                  if(currentPage==1){
-                    that.projectList = data.list;
-                    console.log(data.list);
-                  }else{
-                    for(let i=0;i<data.list.length;i++){
-                      that.projectList.push(data.list[i]);
-                    }
-                  }
-              }
-          }).catch(function (err) {
-            console.log(err);
-          });
-      }
     }
   }
 </script>

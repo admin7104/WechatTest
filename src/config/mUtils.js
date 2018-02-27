@@ -179,6 +179,12 @@ export const formatDate=(formatStr) =>
   }
   return time_str;
 };
+export const pdeadlineType=(type) =>
+{
+  let pdeadlineType = "";
+  type=="YEAR"?pdeadlineType="年":type=="MONTH"?pdeadlineType="个月":pdeadlineType="天";
+  return pdeadlineType;
+};
 
 export const getPhone=()=>{
   let device_type = navigator.userAgent;//获取userAgent信息

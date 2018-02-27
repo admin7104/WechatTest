@@ -42,7 +42,7 @@
 <script>
 import headTop from '@/components/header/head'
 import {mapState, mapMutations} from 'vuex'
-import myaddress from '../../../static/address.json'
+import myaddress from '../../static/address.json'
 
 export default {
     data(){
