@@ -106,6 +106,7 @@
       },
       changeType(type){
           this.currentType = type;
+          this.$router.push({path:"/invest",query:{'type':type}})
       },
       loadMore() {
         this.loading = true;

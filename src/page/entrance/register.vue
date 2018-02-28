@@ -3,42 +3,121 @@
     <head-top :head-title="headTitle" is-back="true" is-gray="true" @go-page="$router.go(-1)"></head-top>
     <div class="login_body">
       <div class="register_form">
-        <p class="phone_bg"><span>手机号</span><input name="" class="phone bgImg" maxlength="11" placeholder="请输入手机号码" v-model="mobileNum"></p>
-        <p class="code_bg"><span>验证码</span><input name="" class="code bgImg" maxlength="6" placeholder="请输入验证码"><button>获取验证码</button></p>
-        <p class="pwd_bg"><span>设置密码</span><input name="" :type="pwdShow1==true?'text':'password'" class="password1 bgImg" placeholder="请输入8-16位字母数字组合密码"><i :class="pwdShow1==true?'open':'close'" @click="pwdShow1=!pwdShow1"></i></p>
-        <p class="pwd2_bg"><span>确认密码</span><input name="" :type="pwdShow2==true?'text':'password'" class="password2 bgImg" placeholder="请输入8-16位字母数字组合密码"><i :class="pwdShow2==true?'open':'close'" @click="pwdShow2=!pwdShow2"></i></p>
-        <p class="invite_bg"><span>邀请人</span><input name="" class="invite bgImg" placeholder="请输入邀请人手机号码(选填)"></p>
-        <button :class="ifChecked==true?'reg_btn':'reg_btn gray'">注册</button>
+        <p class="phone_bg"><span>手机号</span><input name="" class="phone bgImg" maxlength="11" placeholder="请输入手机号码" v-model="registe.loginname"></p>
+        <p class="code_bg"><span>验证码</span><input name="" class="code bgImg" v-model="registe.authcode" maxlength="6" placeholder="请输入验证码"><button :class="getCodeBtn==true?'btn':'btn gray'" @click="getCode">{{text}}</button></p>
+        <p class="pwd_bg"><span>设置密码</span><input name="" v-model="registe.loginpwd" :type="pwdShow1==true?'text':'password'" class="password1 bgImg" placeholder="请输入8-16位字母数字组合密码"><i :class="pwdShow1==true?'open':'close'" @click="pwdShow1=!pwdShow1"></i></p>
+        <p class="pwd2_bg"><span>确认密码</span><input name="" v-model="registe.loginpwd2" :type="pwdShow2==true?'text':'password'" class="password2 bgImg" placeholder="请输入8-16位字母数字组合密码"><i :class="pwdShow2==true?'open':'close'" @click="pwdShow2=!pwdShow2"></i></p>
+        <p class="invite_bg"><span>邀请人</span><input name="" v-model="registe.spreadcode" class="invite bgImg" placeholder="请输入邀请人手机号码(选填)"></p>
+        <button :class="ifChecked==true?'reg_btn':'reg_btn gray'" @click="register">注册</button>
         <div class="agree_div">
           <input @click="ifChecked=!ifChecked" type="checkbox" v-show="false" id="myCheck"><label class="left" for="myCheck"></label>
           <p class="agree left">我已同意并阅读<router-link :to="{path: '/agreement/001'}">《XXXXX协议》</router-link>和<router-link :to="{path: '/agreement/001'}">《XXXXX协议》</router-link></p>
         </div>
       </div>
     </div>
+    <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
   </div>
 </template>
 
 <script>
   import headTop from '@/components/header/head'
+  import {isExistLoginName,getAuthCode,register} from '@/service/getData'
+  import alertTip from '@/components/common/alertTip'
+  import {setStore,getStore} from '@/config/mUtils'
   export default {
     data: function () {
       return {
         headTitle: "注册",
         ifChecked:false,
+        showAlert: false,
+        alertText: '',
         pwdShow1: false,
         pwdShow2: false,
-        mobileNum:''
+        registe:{
+          loginname:'',
+          loginpwd:'',
+          loginpwd2:'',
+          authcode:'',
+          sequence:'1111',
+          spreadcode:''
+        },
+        getCodeBtn: true,
+        iceTime: 0,
+        text: '获取验证码'
       }
     },
     mounted(){
       this.$("#headerTop")[0].style.background = '#fff';
       this.$("#app")[0].style.background = '#fff';
-      this.$("#headerTitle")[0].style.color = '#282828';c
+      this.$("#headerTitle")[0].style.color = '#282828';
+      const _this = this;
+      this.initSecond();
     },
     components:{
-      headTop
+      headTop,
+      alertTip
     },
     methods:{
+      initSecond(){
+        const firsttime = getStore("streamid"),nowtime = new Date();
+        const timediff = Date.parse(nowtime)-Date.parse(firsttime);
+        let secs = 0;
+        console.log(timediff);
+        //计算秒数
+        secs = parseInt(timediff/1000);
+        if(secs<60) {
+          this.getCodeBtn=false;this.iceTime = 60-secs;
+          const _this = this;
+          let timer = setInterval(function () {
+            if(_this.iceTime==0){
+              _this.getCodeBtn = true;
+              _this.text = "获取验证码";
+              clearInterval(timer);
+              return;
+            }
+            _this.text = _this.iceTime--+"s后可获取";
+          },1000)
+        }
+        console.log(secs);
+      },
+      async getCode(){
+        if(this.getCodeBtn==false) return;
+        const result = await isExistLoginName(this.registe.loginname,new Date());
+        if(result.isexist==1){
+          this.showTip('用户已存在');
+          return;
+        }else {
+          this.getAuthCode();
+        }
+        console.log(result);
+      },
+      async getAuthCode(){
+        if(this.getCodeBtn==false) return;
+        const codeResult = await getAuthCode(this.registe.loginname,"USER_REGISTER",new Date());
+        console.log(codeResult);
+        if(codeResult.retcode=="00000000"){
+          setStore("streamid",codeResult.streamid);
+          this.initSecond();
+        }else this.showTip(codeResult.retmsg);
+      },
+      async register(){
+        if(this.registe.loginpwd!==this.registe.loginpwd2) return;
+        const regResult = await register(this.registe.loginname,this.registe.loginpwd,this.registe.authcode,this.registe.spreadcode,this.registe.sequence);
+        if(regResult.retcode=="00000000"){
+          this.showTip("注册成功");
+          this.$router.push({path:'/login',query:{loginname:regResult.loginname}})
+        }else {
+          this.showTip(regResult.retmsg);
+        }
+        console.log(regResult);
+      },
+      showTip(alertText){
+        this.showAlert = true;
+        this.alertText = alertText;
+      },
+      closeTip(){
+        this.showAlert = false;
+      }
     }
   }
 </script>
@@ -121,7 +200,7 @@
       background: $mc;
       border-radius: 8px;
     }
-    .reg_btn.gray{
+    .reg_btn.gray,.btn.gray{
       background: #ccc;
     }
     #myCheck + label{

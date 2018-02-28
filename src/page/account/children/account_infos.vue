@@ -59,6 +59,7 @@
 <script>
   import headTop from '@/components/header/head'
   import {getStore,removeStore} from '@/config/mUtils'
+  import {mapState,mapMutations} from 'vuex'
   export default {
     data: function () {
       return {
@@ -71,11 +72,20 @@
     components:{
       headTop,
     },
+    computed:{
+      ...mapState([
+        'userInfo',
+      ]),
+    },
     methods:{
-        logout(){
-          removeStore('loginName',getStore('loginName'));
-          this.$router.push({path:'/account'});
-        }
+      ...mapMutations([
+        'OUT_LOGIN','INIT_USERINFO'
+      ]),
+      logout(){
+        this.OUT_LOGIN();
+        this.$router.push('/');
+        removeStore('user_id')
+      }
     }
   }
 </script>

@@ -2,12 +2,12 @@
   <div>
     <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
     <div class="bank_list">
-      <div class="bank_item" v-for="item in bankList">
-        <router-link :to="{path:'/bind_bank',query: {bankname: bankname+item}}">
-          <img src="../../../static/images/account/bank/gongshang.png">
-          <span class="bank_name">{{bankname+item}}</span>
-          <span class="limit">限额:单次:5万 单日:5万</span>
-        </router-link>
+      <div class="bank_item" v-for="item in bank_list">
+        <div @click="returnBind(item.bankName,item.bankCode)">
+          <img :src="item.bankImg">
+          <span class="bank_name">{{item.bankName}}</span>
+          <span class="limit">限额:单次:{{item.onceLimit}} 单日:{{item.dayLimit}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -16,18 +16,59 @@
 
 <script>
   import headTop from '@/components/header/head'
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState,mapMutations} from 'vuex'
+  import {getBankSupportList} from '@/service/getData'
+  import {success} from '@/config/env'
+  import {getBankImg,getStore,setStore} from '@/config/mUtils'
   export default {
     data: function () {
       return {
         profiletitle: '选择银行卡',
-        bankList:[1,2,3,4,5,7,8,9,0],
-        bankname:"中国工商银行"
+        bank_list:{},
+        bankInfo:{}
       }
     },
     components:{
       headTop,
     },
+    created(){
+      this.INIT_USERINFO();
+    },
+    mounted(){
+      this.getBankList(1);
+      if(getStore('bankInfo')){
+        this.bankInfo = JSON.parse(getStore('bankInfo'));
+      }
+    },
+    computed:{
+      ...mapState([
+        'userInfo',
+      ]),
+    },
+    methods:{
+      ...mapMutations([
+        'INIT_USERINFO'
+      ]),
+      async getBankList(page){
+        const result =  await getBankSupportList(this.userInfo.sessionid,page);
+        if(result.retcode == success)
+        {
+          this.bank_list = result.bankList;
+          for(let i=0;i<this.bank_list.length;i++){
+            this.bank_list[i].bankImg = getBankImg(this.bank_list[i].bankShortName);
+          }
+        }
+        else {
+          alert(result.retmsg)
+        }
+      },
+      returnBind(bankName,bankCode){
+        this.bankInfo.bankName = bankName;
+        this.bankInfo.bankCode = bankCode;
+        setStore('bankInfo',this.bankInfo);
+        this.$router.push({path:'/bind_bank'})
+      }
+    }
   }
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
@@ -44,7 +85,7 @@
     img{
       float: left;
       margin-right: 10px;
-      @include wh(2.1276rem,2.1276rem);
+      @include wh(2.6276rem,2.1276rem);
     }
     .bank_name{
       margin-top: 4px;

@@ -134,8 +134,9 @@
         'INIT_USERINFO'
       ]),
       initData() {
-        console.log(this.userInfo)
-        this.loginName = this.userInfo.loginname;
+        if(this.userInfo)
+          this.loginName = this.userInfo.loginname;
+        else this.loginName = null;
       }
     }
   }

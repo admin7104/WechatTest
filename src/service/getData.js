@@ -4,8 +4,9 @@ import {getSign,formatDate} from '../config/mUtils'
 
 
 export const login = (loginname,loginpwd) => fetch('/app/user/login.ht', {"loginname":loginname,"loginpwd":md5(loginpwd)});
+export const isExistLoginName = (loginname,streamid) => fetch('/app/common/isExistLoginName.ht ',{"loginname":loginname,"streamid":streamid});
 export const register = (loginname,loginpwd,authcode,spreadcode,sequence) => fetch('/app/user/register.ht', {"loginname":loginname,"loginpwd":md5(loginpwd),"authcode":authcode,"promotioncode":'weixin',"tradecode":"USER_REGISTER","spreadcode":spreadcode,"sequence":sequence});
-export const getAuthCode = (mobile,tradecode) => fetch('/app/common/getAuthCode.ht',{"mobile":mobile,"tradecode":tradecode});
+export const getAuthCode = (mobile,tradecode,streamid) => fetch('/app/common/getAuthCode.ht',{"mobile":mobile,"tradecode":tradecode,"streamid":streamid});
 export const get_banner = () =>fetch('/app/conf/appBannerList.ht',{});
 export const hot_projectlist = () =>fetch('/app/appFinancing/getIndexFinancingProjectsList.ht',{});
 

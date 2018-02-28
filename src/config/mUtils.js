@@ -195,26 +195,76 @@ export const getPhone=()=>{
     os = md.os() + md.version("iPhone");
   } else if (os == "AndroidOS") {//Android系统的处理
     os = md.os() + md.version("Android");
-    /*let sss = device_type.split(";");
-     console.log(sss);
-     let i = sss.contains("Build/");
-     if (i > -1) {
-     model = sss[i].substring(0, sss[i].indexOf("Build/"));
-     }*/
   }
   model = md.mobile();
-  /*if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        console.log( position.coords.longitude );
-        console.log( position.coords.latitude );
-      },
-      function (e) {
-        throw(e.message);
-      }
-    )
-  }else{
-    console.log(222)
-  }*/
   return os + "---" + model;//打印系统版本和手机型号
+};
+
+export const getBankImg = (bankShortName)=>{
+  switch(bankShortName)
+  {
+    case"ABC":
+      return require("../../static/images/bank/ABC.png");
+    case"BC":
+      return require("../../static/images/bank/BC.png");
+    case"BCM":
+      return require("../../static/images/bank/BCM.png");
+    case"BOB":
+      return require("../../static/images/bank/BOB.png");
+    case"BRCB":
+      return require("../../static/images/bank/BRCB.png");
+    case"CBHB":
+      return require("../../static/images/bank/CBHB.png");
+    case"CCB":
+      return require("../../static/images/bank/CCB.png");
+    case"CEB":
+      return require("../../static/images/bank/CEB.png");
+    case"CIB":
+      return require("../../static/images/bank/CIB.png");
+    case"CITIC":
+      return require("../../static/images/bank/CITIC.png");
+    case"CMB":
+      return require("../../static/images/bank/CMB.png");
+    case"CMBC":
+      return require("../../static/images/bank/CMBC.png");
+    case"CZBANK":
+      return require("../../static/images/bank/CZBANK.png");
+    case"CZCB":
+      return require("../../static/images/bank/CZCB.png");
+    case"GDB":
+      return require("../../static/images/bank/GDB.png");
+    case"GZCB":
+      return require("../../static/images/bank/GZCB.png");
+    case"HSCB":
+      return require("../../static/images/bank/HSCB.png");
+    case"HXB":
+      return require("../../static/images/bank/HXB.png");
+    case"HZCB":
+      return require("../../static/images/bank/HZCB.png");
+    case"ICBC":
+      return require("../../static/images/bank/ICBC.png");
+    case"NBCB":
+      return require("../../static/images/bank/NBCB.png");
+    case"NJCB":
+      return require("../../static/images/bank/NJCB.png");
+    case"PAB":
+      return require("../../static/images/bank/PAB.png");
+    case"PSBC":
+      return require("../../static/images/bank/PSBC.png");
+    case"SDB":
+      return require("../../static/images/bank/SDB.png");
+    case"SDEBANK":
+      return require("../../static/images/bank/SDEBANK.png");
+    case"SHCB":
+      return require("../../static/images/bank/SHCB.png");
+    case"SPDB":
+      return require("../../static/images/bank/SPDB.png");
+    case"SRCB":
+      return require("../../static/images/bank/SRCB.png");
+    case"TJCB":
+      return require("../../static/images/bank/TJCB.png");
+    case"WZCB":
+      return require("../../static/images/bank/WZCB.png");
+  }
+
 };

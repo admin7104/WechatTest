@@ -1,32 +1,31 @@
 <template>
     <div class="">
-      <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
-      <form class="bind_bank">
+      <head-top :head-title="profiletitle" is-back="true" @go-page="$router.push('account_infos')"></head-top>
+      <div class="bind_bank">
         <p class="tips">*智慧财神采用数据加密，100%确保信息安全</p>
-        <mt-field class="border_b" label="姓名" placeholder="请输入真实姓名" v-model="realname"></mt-field>
-        <mt-field label="身份证号" placeholder="请输入真实身份证号" v-model="idcard"></mt-field>
+        <mt-field class="border_b" label="姓名" placeholder="请输入真实姓名" v-model="bankInfo.realname"></mt-field>
+        <mt-field label="身份证号" placeholder="请输入真实身份证号" v-model="bankInfo.idcard"></mt-field>
         <p class="tips2">认证成功后不可修改</p>
-        <mt-cell
+        <a class="over_click border_b" @click="selectBank"><mt-cell
           title="银行"
           class="border_b"
-          :to="{path: '/bank_list'}"
           is-link
-          :value="bankname">
-        </mt-cell>
-        <mt-field label="银行卡号" class="border_b" placeholder="请输入银行卡号" v-model="cardnum"></mt-field>
+          :value="bankInfo.bankName">
+        </mt-cell></a>
+        <mt-field label="银行卡号" class="border_b" type="number" placeholder="请输入银行卡号" v-model="bankInfo.cardnum"></mt-field>
         <a class="over_click border_b" @click="overShow=true"><mt-cell
           title="开户行所在地"
           is-link
-          :value="bankaddr">
+          :value="bankInfo.bankaddr">
         </mt-cell></a>
-        <mt-field label="开户支行" placeholder="请输入支行名称（选填）" v-model="cardbranch"></mt-field>
-        <mt-field style="margin-top: 0.6rem;" label="预留手机号" placeholder="请输入预留银行手机号" v-model="phone"></mt-field>
-        <mt-button :class="ifChecked==true?'submit':'submit gray'">提交</mt-button>
+        <mt-field label="开户支行" placeholder="请输入支行名称（选填）" v-model="bankInfo.cardbranch"></mt-field>
+        <mt-field style="margin-top: 0.6rem;" type="number" label="预留手机号" placeholder="请输入预留银行手机号" v-model="bankInfo.phone"></mt-field>
+        <mt-button :class="ifChecked==true?'submit':'submit gray'" @click="bindSure">提交</mt-button>
         <div class="agree_div">
           <input @click="ifChecked=!ifChecked" type="checkbox" v-show="false" id="myCheck"><label class="left" for="myCheck"></label>
           <p class="agree left">我已同意并签署<router-link :to="{path: '/agreement/001'}">《XXXXX》</router-link></p>
         </div>
-      </form>
+      </div>
       <div class="select_over" v-show="overShow" @click="overShow=false">
         <div class="picker_content">
           <div class="btn_group">
@@ -36,6 +35,7 @@
           <mt-picker :slots="myAddressSlots" @change="onMyAddressChange"></mt-picker>
         </div>
       </div>
+      <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
     </div>
 </template>
 
@@ -43,19 +43,23 @@
 import headTop from '@/components/header/head'
 import {mapState, mapMutations} from 'vuex'
 import myaddress from '../../static/address.json'
+import {setStore,getStore} from '@/config/mUtils'
+import alertTip from '@/components/common/alertTip'
 
 export default {
     data(){
         return{
           profiletitle: '实名与绑卡',
           overShow:false,
-          realname:'',
-          idcard:'',
-          bankname:'',
-          cardnum:'',
-          cardbranch:'',
-          phone:'',
-          bankaddr:'',
+          bankInfo:{
+            realname:'',
+            idcard:'',
+            bankName:'',
+            cardnum:'',
+            cardbranch:'',
+            phone:'',
+            bankaddr:'',
+          },
           myAddressSlots: [
             {
               flex: 1,
@@ -76,25 +80,26 @@ export default {
           ],
           myAddressProvince:'省',
           myAddressCity:'市',
-          ifChecked:false
+          ifChecked:false,
+          showAlert:false,
+          alertText:''
         }
     },
     mounted(){
-      if(this.$route.query.bankname!=undefined){
-        this.bankname = this.$route.query.bankname;
-      }
       this.$nextTick(() => { //vue里面全部加载好了再执行的函数  （类似于setTimeout）
         this.myAddressSlots[0].defaultIndex = 0
         // 这里的值需要和 data里面 defaultIndex 的值不一样才能够初始化
         //因为我没有看过源码（我猜测是因为数据没有改变，不会触发更新）
       });
+      if(getStore('bankInfo')){
+        this.bankInfo = JSON.parse(getStore('bankInfo'));
+      }
     },
     components:{
-        headTop,
+      headTop,
+      alertTip
     },
-
     computed:{
-
     },
 
     methods:{
@@ -106,8 +111,19 @@ export default {
         }
       },
       checkAddr(){
-        this.bankaddr = this.myAddressProvince+'-'+this.myAddressCity;
+        this.bankInfo.bankaddr = this.myAddressProvince+'-'+this.myAddressCity;
         this.overShow = false;
+      },
+      selectBank(){
+        this.$router.push({path: '/bank_list'});
+        setStore('bankInfo',this.bankInfo);
+      },
+      bindSure(){
+        this.showAlert = true;
+        this.alertText = '手机号码不正确';
+      },
+      closeTip(){
+        this.showAlert = false;
       }
     },
     watch: {

@@ -8,7 +8,7 @@
     <div class="login_body">
       <img class="top_img" src="../../../static/images/login/top_img.png">
       <div class="login_form">
-        <input name="" class="phone bgImg" v-model="phone" placeholder="请输入手机号码">
+        <input name="" class="phone bgImg" type="number" maxlength="11" v-model="phone" placeholder="请输入手机号码">
         <p class="psd_bg"><input name="" v-model="password" :type="pwdShow==true?'text':'password'" class="password bgImg" placeholder="请输入登录密码"><i @click="pwdShow=!pwdShow" :class="pwdShow==true?'open':'close'"></i></p>
         <p class="forget_psd"><router-link to="">忘记密码</router-link></p>
         <button @click="login" class="login_btn">登录</button>
