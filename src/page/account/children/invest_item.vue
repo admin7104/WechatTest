@@ -5,26 +5,26 @@
       <div class="list_container">
         <div class="item">
           <div class="title">
-            <h4>新客专享第00115期</h4>
-            <div class="col-4"><p>15<span>%</span></p><p class="text">预期年化利率</p></div>
-            <div class="col-4"><p>15<span>天</span></p><p class="text">锁定期</p></div>
-            <div class="col-4"><p>10000.00</p><p class="text">借款金额(元)</p></div>
+            <h4>{{pdv.pName}}</h4>
+            <div class="col-4"><p>{{pdv.rateIn}}<span>%</span></p><p class="text">预期年化利率</p></div>
+            <div class="col-4"><p>{{pdv.deadline}}<span>{{pdv.deadlineType}}</span></p><p class="text">锁定期</p></div>
+            <div class="col-4"><p>{{pdv.loan}}</p><p class="text">借款金额(元)</p></div>
           </div>
-          <p class="clear"><span class="left">到期时间</span><span class="right">2018-01-05 18:18:18</span></p>
-          <p class="clear"><span class="left">还款方式</span><span class="right">一次性还本付息</span></p>
-          <p class="clear"><span class="left">已投金额(元)</span><span class="right">20,000.00</span></p>
-          <p class="clear"><span class="left">预计收益(元)</span><span class="right">145.83</span></p>
-          <p class="clear"><span class="left">理财券</span><span class="right">已用18元红包</span></p>
+          <p class="clear"><span class="left">到期时间</span><span class="right">{{pdv.pcloseDateStr}}</span></p>
+          <p class="clear"><span class="left">还款方式</span><span class="right">{{pdv.prepayWayName}}</span></p>
+          <p class="clear"><span class="left">已投金额(元)</span><span class="right">{{pdv.loanReal}}</span></p>
+          <p class="clear"><span class="left">预计收益(元)</span><span class="right">{{pdv.interestMoney}}</span></p>
+          <p class="clear"><span class="left">理财券</span><span class="right">{{pdv.allRedMoney==0?'未使用红包':'已用'+pdv.allRedMoney+'元红包'}}</span></p>
           <p class="clear no_border" @click="changeState()">
             <span class="left">收款明细</span><span :class="close==true?'right status close':'right status open'"></span>
             <span class="clear"></span>
           </p>
-          <ul id="extra_ul" :class="close==false?'animated bounceInRight':'animated bounceOutLeft'">
-            <li v-for="n in 3">
-              <span class="left">第一期已收本息<i>20145.83元</i></span><span class="right">2018.01.05</span>
+          <ul id="extra_ul" :class="close==false?'animated bounceInRight':'animated bounceOutLeft'" v-if="pdv.viewList!=''">
+            <li v-for="item in pdv.viewList">
+              <span class="left">第{{item.current}}期已收本息<i>{{item.allMoney}}元</i></span><span class="right">{{item.payTime}}</span>
             </li>
           </ul>
-          <span class="tag">筹集中</span>
+          <span class="tag">{{pdv.pstatustext}}</span>
         </div>
       </div>
     </div>
@@ -33,11 +33,14 @@
 
 <script>
   import headTop from '@/components/header/head'
+  import {getPurchasedProjectDetail} from '@/service/getData'
+  import {pdeadlineType} from '@/config/mUtils'
   export default {
     data: function () {
       return {
         headTitle: "已购产品详情",
-        close: true
+        close: true,
+        pdv:{}
       }
     },
     components:{
@@ -47,11 +50,21 @@
       this.$("#headerTop")[0].style.background = '#fff';
       this.$("#headerTitle")[0].style.color = '#333';
       this.$("#extra_ul")[0].style.display = 'none';
+      this.purchaseDetail();
     },
     methods:{
       changeState(){
         this.$("#extra_ul")[0].style.display = 'inherit';
         this.close = !this.close;
+      },
+      async purchaseDetail(){
+        let item = await getPurchasedProjectDetail(this.$route.query.sessionid,this.$route.query.projectId);
+        if(item.retcode=="00000000"){
+          this.pdv = item.pdv;
+          this.pdv.pstatustext = this.pdv.pstatusId==4?'筹集中':this.pdv.pstatusId==6?'投资中':'已还清';
+          this.pdv.deadlineType =  pdeadlineType(this.pdv.deadlineType);
+        }
+        console.log(item)
       }
     }
   }

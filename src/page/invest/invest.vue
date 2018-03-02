@@ -12,7 +12,7 @@
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
         <li v-for="item in projectList">
-          <router-link :to="{path: '/invest_detail'}">
+          <router-link :to="{path: '/invest_test'}">
             <div :class="item.pcomplete==100?'project_item project_item_f':'project_item'">
               <div class="p_head">
                 <h3 class="projectName">{{item.pname}}<span :class="item.pcomplete==100?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
@@ -85,6 +85,7 @@
         }*/
       });
       this.getProjectList(0);
+      this.$route.query.type!=undefined?this.changeType(this.$route.query.type):'';
     },
     components:{
       headTop,
@@ -102,7 +103,6 @@
           }
         }
         else alert(result.retmsg);
-        console.log(JSON.stringify(this.projectList[0]));
       },
       changeType(type){
           this.currentType = type;

@@ -15,19 +15,19 @@
             <img src="../../../static/images/account/head_icon.png"/>
           </router-link>
         </div>
-        <div class="col-8">{{loginName==null?'未登录':loginName}}</div>
+        <div class="col-8">{{loginName==null?'未登录':myAccount.nickname!=''?myAccount.nickname:myAccount.realName!=''?myAccount.realName:loginName}}</div>
         <div class="col-2 mail_icon"><img src="../../../static/images/account/mail_icon.png"/></div>
         <div class="clear"></div>
       </div>
       <p class="total_title mt">总资产(元)</p>
-      <p class="total_value">30000.00</p>
+      <p class="total_value">{{loginName==null?'0.00':myAccount.totalFunds}}</p>
       <div class="money_detail">
         <div class="col-6">
-          <p class="total_value">0.00</p>
+          <p class="total_value">{{loginName==null?'0.00':myAccount.balance}}</p>
           <p class="total_title">账户余额(元)</p>
         </div>
         <div class="col-6">
-          <p class="total_value">500.00</p>
+          <p class="total_value">{{loginName==null?'0.00':myAccount.accumulatedIncome}}</p>
           <p class="total_title">累计收益(元)</p>
         </div>
       </div>
@@ -49,9 +49,9 @@
             <span class="right">详情<img src="../../../static/images/account/arrow.png" class="right"></span>
           </div>
           <div class="type_btn">
-            <div class="col-4">筹集中(<span>0</span>)</div>
-            <div class="col-4">投资中(<span>1</span>)</div>
-            <div class="col-4">已结清(<span>5</span>)</div>
+            <div class="col-4">筹集中(<span>{{loginName==null?'0':myAccount.bided}}</span>)</div>
+            <div class="col-4">投资中(<span>{{loginName==null?'0':myAccount.investingCount}}</span>)</div>
+            <div class="col-4">已结清(<span>{{loginName==null?'0':myAccount.repayOffCount}}</span>)</div>
           </div>
         </div>
       </router-link>
@@ -107,11 +107,13 @@
   import footerGuide from '@/components/footer/footerGuide'
   import {getStore} from '@/config/mUtils'
   import {mapState,mapMutations} from 'vuex'
+  import {myAccount} from '@/service/getData'
   export default {
     data: function () {
       return {
         headTitle: "我的账户",
-        loginName: ''
+        loginName: '',
+        myAccount:{}
       }
     },
     created(){
@@ -121,11 +123,13 @@
       footerGuide
     },
     mounted(){
-        this.initData();
+      console.log(this.userInfo);
+      if(this.userInfo==null) this.$router.push({path:'/login'});
+      else this.getMyAccount(this.userInfo.sessionid);
     },
     computed:{
       ...mapState([
-        'userInfo',
+        'userInfo','payAccount'
       ]),
     },
 
@@ -133,11 +137,17 @@
       ...mapMutations([
         'INIT_USERINFO'
       ]),
-      initData() {
-        if(this.userInfo)
-          this.loginName = this.userInfo.loginname;
-        else this.loginName = null;
-      }
+      async getMyAccount(sessionid){
+        let account = await myAccount(sessionid);
+        if(account.retcode=="00000000"){
+          this.myAccount = account.userFundsMore;
+        }
+        else{
+          this.loginName = null;
+          this.$router.push({path:'/login'})
+        }
+        console.log(this.myAccount);
+      },
     }
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="account_infos_body">
-    <head-top :head-title="headTitle" is-back="true" @go-page="$router.go(-1)"></head-top>
+    <head-top :head-title="headTitle" is-back="true" @go-page="$router.push('account')"></head-top>
     <div class="account_infos">
       <mt-cell class="avatar mt20 no_border" title="头像">
         <img class="right" slot="icon" src="../../../../static/images/account/head_icon.png">
@@ -22,14 +22,14 @@
         title="昵称"
         to="//github.com"
         is-link
-        value="理财大人">
+        :value="userInfo.nickName!=''?userInfo.nickName:'未设置'">
       </mt-cell>
       <mt-cell
         class="no_border"
         title="手机号"
         to="//github.com"
         is-link
-        value="15588888888">
+        :value="userInfo.loginname">
       </mt-cell>
       <mt-cell class="mt20"
         title="修改密码"
@@ -66,6 +66,10 @@
           headTitle: "账户信息"
       }
     },
+    created(){
+      this.INIT_USERINFO();
+      console.log(this.payAccount)
+    },
     mounted(){
         this.$("#app")[0].style.background = "#eee";
     },
@@ -74,7 +78,7 @@
     },
     computed:{
       ...mapState([
-        'userInfo',
+        'userInfo','payAccount'
       ]),
     },
     methods:{

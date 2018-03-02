@@ -11,51 +11,51 @@
         <mt-tab-container v-model="selected" swipeable>
           <mt-tab-container-item id="invest_list1" v-show="selected=='invest_list1'">
             <ul>
-              <router-link :to="{path:'/invest_item',query: {itemId: n}}" v-for="n in 4" :key="n">
+              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId,sessionid:userInfo.sessionid}}" v-for="(item,index) in investlist" :key="index">
                 <li>
                   <div class="title">
-                    <h4>新客专享第00115期</h4>
-                    <p class="invest_time">2018-01-05 09:43:22</p>
+                    <h4>{{item.pname}}</h4>
+                    <p class="invest_time">{{item.piBidTimeStr}}</p>
                   </div>
-                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">15%</span></p>
-                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">20,000.00</span></p>
-                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">145.83</span></p>
-                  <p class="clear"><span class="text left">到期时间</span><span class="right">2018-01-05</span></p>
-                  <span class="tag">筹集中</span>
+                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">{{item.prateIn}}%</span></p>
+                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">{{item.piAmount}}</span></p>
+                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">{{item.piBeGetRateSum}}</span></p>
+                  <p class="clear"><span class="text left">到期时间</span><span class="right">{{item.expireDate}}</span></p>
+                  <span class="tag">{{item.pStatusText}}</span>
                 </li>
               </router-link>
             </ul>
           </mt-tab-container-item>
           <mt-tab-container-item id="invest_list2" v-show="selected=='invest_list2'">
             <ul>
-              <router-link :to="{path:'/invest_item',query: {itemId: n}}" v-for="n in 8" :key="n">
+              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId,sessionid:userInfo.sessionid}}" v-for="(item,index) in investlist" :key="index">
                 <li>
                   <div class="title">
-                    <h4>新客专享第00115期</h4>
-                    <p class="invest_time">2018-01-05 09:43:22</p>
+                    <h4>{{item.pname}}</h4>
+                    <p class="invest_time">{{item.piBidTimeStr}}</p>
                   </div>
-                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">15%</span></p>
-                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">20,000.00</span></p>
-                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">145.83</span></p>
-                  <p class="clear"><span class="text left">到期时间</span><span class="right">2018-01-05</span></p>
-                  <span class="tag">投资中</span>
+                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">{{item.prateIn}}%</span></p>
+                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">{{item.piAmount}}</span></p>
+                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">{{item.piBeGetRateSum}}</span></p>
+                  <p class="clear"><span class="text left">到期时间</span><span class="right">{{item.expireDate}}</span></p>
+                  <span class="tag">{{item.pStatusText}}</span>
                 </li>
               </router-link>
             </ul>
           </mt-tab-container-item>
           <mt-tab-container-item id="invest_list3" v-show="selected=='invest_list3'">
             <ul>
-              <router-link :to="{path:'/invest_item',query: {itemId: n}}" v-for="n in 3" :key="n">
+              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId,sessionid:userInfo.sessionid}}" v-for="(item,index) in investlist" :key="index">
                 <li>
                   <div class="title">
-                    <h4>新客专享第00115期</h4>
-                    <p class="invest_time">2018-01-05 09:43:22</p>
+                    <h4>{{item.pname}}</h4>
+                    <p class="invest_time">{{item.piBidTimeStr}}</p>
                   </div>
-                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">15%</span></p>
-                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">20,000.00</span></p>
-                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">145.83</span></p>
-                  <p class="clear"><span class="text left">到期时间</span><span class="right">2018-01-05</span></p>
-                  <span class="tag">已还清</span>
+                  <p class="clear"><span class="text left">预期年化收益率</span><span class="right">{{item.prateIn}}%</span></p>
+                  <p class="clear"><span class="text left">投资本金(元)</span><span class="right">{{item.piAmount}}</span></p>
+                  <p class="clear"><span class="text left">预计收益(元)</span><span class="right">{{item.piBeGetRateSum}}</span></p>
+                  <p class="clear"><span class="text left">到期时间</span><span class="right">{{item.expireDate}}</span></p>
+                  <span class="tag">{{item.pStatusText}}</span>
                 </li>
               </router-link>
             </ul>
@@ -68,11 +68,14 @@
 
 <script>
   import headTop from '@/components/header/head'
+  import {mapMutations,mapState} from 'vuex'
+  import {myTender} from '@/service/getData'
   export default {
     data: function () {
       return {
         headTitle: "投资记录",
-        selected:'invest_list1'
+        selected:'invest_list1',
+        investlist:{}
       }
     },
     components:{
@@ -82,13 +85,47 @@
       this.$("#app")[0].style.background = '#f1f1f1';
       this.$("#headerTop")[0].style.background = '#fff';
       this.$("#headerTitle")[0].style.color = '#333';
-      if(this.$route.query.selected!=undefined)
-        this.selected = this.$route.query.selected;
+      this.getInvestList(1,1);
+    },
+    created(){
+      this.INIT_USERINFO();
+    },
+    computed:{
+      ...mapState([
+        'userInfo',
+      ]),
     },
     methods:{
+      ...mapMutations([
+        'INIT_USERINFO'
+      ]),
       changeType(selected){
           this.selected = selected;
-          this.$router.push({path:'/invest_list',query:{selected:selected}});
+      },
+      async getInvestList(page,queryType){
+        let investList = await myTender(this.userInfo.sessionid,page,queryType);
+        if(investList.retcode="00000000"){
+          this.investlist = investList.tenderList;
+          for(let i=0;i<this.investlist.length;i++){
+            this.investlist[i].pStatusText = this.investlist[i].pStatusId==4?'筹集中':this.investlist[i].pStatusId==6?'投资中':'已还清';
+          }
+        }
+      }
+    },
+    watch: {
+      selected:function () {
+        if(this.selected == "invest_list1")
+        {
+          this.getInvestList(1,1);
+        }
+        else if(this.selected == "invest_list2")
+        {
+          this.getInvestList(1,3);
+        }
+        else if(this.selected == "invest_list3")
+        {
+          this.getInvestList(1,4);
+        }
       }
     }
   }

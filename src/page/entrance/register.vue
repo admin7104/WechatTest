@@ -101,9 +101,13 @@
         }else this.showTip(codeResult.retmsg);
       },
       async register(){
-        if(this.registe.loginpwd!==this.registe.loginpwd2) return;
+        if(this.registe.loginpwd!==this.registe.loginpwd2) {
+          this.showTip('两次输入密码不一致');
+          return;
+        }
         const regResult = await register(this.registe.loginname,this.registe.loginpwd,this.registe.authcode,this.registe.spreadcode,this.registe.sequence);
         if(regResult.retcode=="00000000"){
+          this.registe.sequence = regResult.sequence;
           this.showTip("注册成功");
           this.$router.push({path:'/login',query:{loginname:regResult.loginname}})
         }else {

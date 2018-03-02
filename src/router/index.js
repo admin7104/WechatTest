@@ -8,6 +8,7 @@ const home = r => require.ensure([], () => r(require('../page/home/home')), 'hom
 /*产品显示*/
 const invest = r => require.ensure([], () => r(require('../page/invest/invest')), 'invest');
 const invest_detail = r => require.ensure([], () => r(require('../page/invest/invest_detail')), 'invest_detail');
+const invest_test = r => require.ensure([], () => r(require('../page/invest/invest_test')), 'invest_test');
 const invest_list = r => require.ensure([], () => r(require('../page/account/children/invest_list')), 'invest_list');
 const invest_item = r => require.ensure([], () => r(require('../page/account/children/invest_item')), 'invest_item');
 /*账户操作*/
@@ -40,6 +41,10 @@ const routes = [
   {
     path:'/invest_detail',
     component: invest_detail
+  },
+  {
+    path:'/invest_test',
+    component: invest_test
   },
   {
     path:'/invest',

@@ -6,6 +6,7 @@ import {
 	CLEAR_CART,
 	RECORD_SHOPDETAIL,
 	RECORD_USERINFO,
+  RECORD_PAYACCOUNT,
 	GET_USERINFO,
 	CONFIRM_REMARK,
 	CONFIRM_INVOICE,
@@ -117,10 +118,11 @@ export default {
 	},
   //网页初始化时从本地缓存获取登录信息
   [INIT_USERINFO](state) {
-    let initUserInfo = getStore('userInfo');
+    let initUserInfo = getStore('userInfo'),initPayAccount = getStore('payAccount');
     // console.log(initUserInfo)
     if (initUserInfo) {
       state.userInfo = JSON.parse(initUserInfo);
+      state.payAccount = JSON.parse(initPayAccount);
     }
   },
 	// 记录用户信息
@@ -129,6 +131,11 @@ export default {
 		state.login = true;
 		setStore('userInfo', info);
 	},
+  // 记录实名信息
+  [RECORD_PAYACCOUNT](state, payaccount) {
+    state.payAccount = payaccount;
+    setStore('payAccount', payaccount);
+  },
 	//获取用户信息存入vuex
 	[GET_USERINFO](state, info) {
 		if (state.userInfo && (state.userInfo.userid !== info.userid)) {

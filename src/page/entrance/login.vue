@@ -22,7 +22,7 @@
 <script>
   import headTop from '@/components/header/head'
   import {setStore,getStore,getPhone} from '@/config/mUtils'
-  import {login} from '@/service/getData'
+  import {login,myPayAccount} from '@/service/getData'
   import {mapMutations} from 'vuex'
   export default {
     data: function () {
@@ -43,17 +43,21 @@
     },
     methods:{
       ...mapMutations([
-        'RECORD_USERINFO',
+        'RECORD_USERINFO','RECORD_PAYACCOUNT'
       ]),
       async login () {
         this.userInfo =  await login(this.phone,this.password);
-        console.log(this.userInfo);
         if(this.userInfo.retcode=='00000000'){
           this.$router.push({path:'/account'});
           this.RECORD_USERINFO(this.userInfo);
+          this.getPayAccount(this.userInfo.sessionid);
         }else{
           alert(this.userInfo.retmsg);
         }
+      },
+      async getPayAccount(sessionid){
+        let payaccount = await myPayAccount(sessionid);
+        this.RECORD_PAYACCOUNT(payaccount.account);
       }
     }
   }

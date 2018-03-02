@@ -74,8 +74,8 @@
               </p>
               <p class="tips">温馨提示：投资有风险，理财需谨慎</p>
             </section>
+            <button class="pull">下拉显示更多</button>
           </div>
-          <button class="pull">下拉显示更多</button>
         </div>
 
         <div class="swiper-slide" style="padding-top: 1.95rem;">
@@ -230,7 +230,6 @@
   .swiper-slide-next{display: none;}
   .project_info{
     background: #f7f9fb;
-    padding-bottom: 1.102rem;
   }
   .swiper-slide{
     overflow: auto;
@@ -290,6 +289,7 @@
   .project_intro{
     position: relative;
     margin-top: 0.297rem;
+    padding-bottom: 1.102rem;
     background: #fff;
     h4{
       padding-left:0.628rem;
