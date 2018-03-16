@@ -1,6 +1,6 @@
 <template>
     <div>
-      <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
+      <head-top :head-title="headTitle" is-back="true" @go-page="$router.go(-1)"></head-top>
       <div class="my_bank">
         <div class="bank_info bg100">
           <div class="top_text">
@@ -24,7 +24,7 @@ import {CardFormat} from '@/config/mUtils'
 export default {
     data(){
         return{
-          profiletitle: '银行卡',
+          headTitle: '银行卡',
           cardNum:"6446621788887522947",
           bankName:"中国工商银行",
           bankAddr:"杭州高新支行"

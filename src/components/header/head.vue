@@ -36,7 +36,7 @@
   @import '../../style/mixin.scss';
   .header_top{
     height: 1.95rem;
-    background: $mc;
+    background: $mainColor;
     color: $fc;
     text-align: center;
     line-height: 1.95rem;

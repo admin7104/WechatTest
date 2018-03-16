@@ -1,6 +1,6 @@
 <template>
     <div class="">
-      <head-top :head-title="profiletitle" is-back="true" @go-page="$router.push('account_infos')"></head-top>
+      <head-top :head-title="headTitle" is-back="true" @go-page="$router.push('account_infos')"></head-top>
       <div class="bind_bank">
         <p class="tips">*智慧财神采用数据加密，100%确保信息安全</p>
         <mt-field class="border_b" label="姓名" placeholder="请输入真实姓名" v-model="bankInfo.realname"></mt-field>
@@ -35,7 +35,6 @@
           <mt-picker :slots="myAddressSlots" @change="onMyAddressChange"></mt-picker>
         </div>
       </div>
-      <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
     </div>
 </template>
 
@@ -44,12 +43,12 @@ import headTop from '@/components/header/head'
 import {mapState, mapMutations} from 'vuex'
 import myaddress from '../../static/address.json'
 import {setStore,getStore} from '@/config/mUtils'
-import alertTip from '@/components/common/alertTip'
+import {MessageBox} from 'mint-ui'
 
 export default {
     data(){
         return{
-          profiletitle: '实名与绑卡',
+          headTitle: '实名与绑卡',
           overShow:false,
           bankInfo:{
             realname:'',
@@ -80,9 +79,7 @@ export default {
           ],
           myAddressProvince:'省',
           myAddressCity:'市',
-          ifChecked:false,
-          showAlert:false,
-          alertText:''
+          ifChecked:false
         }
     },
     mounted(){
@@ -96,8 +93,7 @@ export default {
       }
     },
     components:{
-      headTop,
-      alertTip
+      headTop
     },
     computed:{
     },
@@ -119,12 +115,8 @@ export default {
         setStore('bankInfo',this.bankInfo);
       },
       bindSure(){
-        this.showAlert = true;
-        this.alertText = '手机号码不正确';
+        MessageBox.alert('手机号码不正确');
       },
-      closeTip(){
-        this.showAlert = false;
-      }
     },
     watch: {
 

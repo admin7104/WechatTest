@@ -138,7 +138,7 @@
   @import '../../style/mixin.scss';
   .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;position: absolute;left: 1rem;}
   .mc{
-    color: $mc;
+    color: $mainColor;
   }
   .sf{
     font-size: 0.4rem;
@@ -211,7 +211,7 @@
   }
   .rate_dec{
     font-size: 0.4rem;
-    border: 1px solid $mc;
+    border: 1px solid $mainColor;
     border-radius: 4px;
     padding: 2px 4px;
   }
@@ -220,7 +220,7 @@
     display: inline-block;
   }
   .btn_invest{
-    background: $mc;
+    background: $mainColor;
     width: 100%;
   }
 </style>

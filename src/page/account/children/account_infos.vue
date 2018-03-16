@@ -119,7 +119,7 @@
     button{
       @include wh(100%,1.9148rem);
       line-height: 1.9148rem;
-      background: $mc;
+      background: $mainColor;
       color: $fc;
     }
   }

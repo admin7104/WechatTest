@@ -23,7 +23,7 @@
       <p class="total_value">{{loginName==null?'0.00':myAccount.totalFunds}}</p>
       <div class="money_detail">
         <div class="col-6">
-          <p class="total_value">{{loginName==null?'0.00':myAccount.balance}}</p>
+          <p class="total_value">{{loginName==null?'0.00':myAccount.available}}</p>
           <p class="total_title">账户余额(元)</p>
         </div>
         <div class="col-6">
@@ -105,7 +105,7 @@
 
 <script>
   import footerGuide from '@/components/footer/footerGuide'
-  import {getStore} from '@/config/mUtils'
+  import {getStore,setStore} from '@/config/mUtils'
   import {mapState,mapMutations} from 'vuex'
   import {myAccount} from '@/service/getData'
   export default {
@@ -116,31 +116,30 @@
         myAccount:{}
       }
     },
-    created(){
-      this.INIT_USERINFO();
-    },
     components:{
       footerGuide
     },
     mounted(){
-      console.log(this.userInfo);
       if(this.userInfo==null) this.$router.push({path:'/login'});
-      else this.getMyAccount(this.userInfo.sessionid);
+      else this.getMyAccount();
+    },
+    created(){
+      this.INIT_USERINFO();
     },
     computed:{
       ...mapState([
         'userInfo','payAccount'
       ]),
     },
-
     methods: {
       ...mapMutations([
         'INIT_USERINFO'
       ]),
-      async getMyAccount(sessionid){
-        let account = await myAccount(sessionid);
+      async getMyAccount(){
+        let account = await myAccount(this.userInfo.sessionid);
         if(account.retcode=="00000000"){
           this.myAccount = account.userFundsMore;
+          setStore('my_account_obj',this.myAccount);
         }
         else{
           this.loginName = null;
@@ -287,7 +286,7 @@
         border-right: none;
       }
       span{
-        color: $mc;
+        color: $mainColor;
       }
     }
   }

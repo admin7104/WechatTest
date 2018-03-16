@@ -15,22 +15,19 @@
         </div>
       </div>
     </div>
-    <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
   </div>
 </template>
 
 <script>
   import headTop from '@/components/header/head'
   import {isExistLoginName,getAuthCode,register} from '@/service/getData'
-  import alertTip from '@/components/common/alertTip'
+  import {MessageBox} from 'mint-ui'
   import {setStore,getStore} from '@/config/mUtils'
   export default {
     data: function () {
       return {
         headTitle: "注册",
         ifChecked:false,
-        showAlert: false,
-        alertText: '',
         pwdShow1: false,
         pwdShow2: false,
         registe:{
@@ -54,8 +51,7 @@
       this.initSecond();
     },
     components:{
-      headTop,
-      alertTip
+      headTop
     },
     methods:{
       initSecond(){
@@ -84,7 +80,7 @@
         if(this.getCodeBtn==false) return;
         const result = await isExistLoginName(this.registe.loginname,new Date());
         if(result.isexist==1){
-          this.showTip('用户已存在');
+          MessageBox.alert('用户已存在');
           return;
         }else {
           this.getAuthCode();
@@ -98,29 +94,22 @@
         if(codeResult.retcode=="00000000"){
           setStore("streamid",codeResult.streamid);
           this.initSecond();
-        }else this.showTip(codeResult.retmsg);
+        }else MessageBox.alert(codeResult.retmsg);
       },
       async register(){
         if(this.registe.loginpwd!==this.registe.loginpwd2) {
-          this.showTip('两次输入密码不一致');
+          MessageBox.alert('两次输入密码不一致');
           return;
         }
         const regResult = await register(this.registe.loginname,this.registe.loginpwd,this.registe.authcode,this.registe.spreadcode,this.registe.sequence);
         if(regResult.retcode=="00000000"){
           this.registe.sequence = regResult.sequence;
-          this.showTip("注册成功");
+          MessageBox.alert('注册成功');
           this.$router.push({path:'/login',query:{loginname:regResult.loginname}})
         }else {
-          this.showTip(regResult.retmsg);
+          MessageBox.alert(regResult.retmsg);
         }
         console.log(regResult);
-      },
-      showTip(alertText){
-        this.showAlert = true;
-        this.alertText = alertText;
-      },
-      closeTip(){
-        this.showAlert = false;
       }
     }
   }
@@ -165,7 +154,7 @@
     .code_bg button{
       @include wh(3.5rem,1.0212rem);
       @include sc(0.5106rem,#fff);
-      background: $mc;
+      background: $mainColor;
       border-radius: 0.1702rem;
     }
     .code.bgImg{
@@ -201,7 +190,7 @@
       margin: 1.7872rem 0 0.851rem;
       @include hh(1.7872rem,1.7872rem);
       @include sc(0.7659rem,#fffefe);
-      background: $mc;
+      background: $mainColor;
       border-radius: 8px;
     }
     .reg_btn.gray,.btn.gray{

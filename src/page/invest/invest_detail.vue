@@ -1,11 +1,6 @@
 <template>
   <div>
-    <header class="header_top">
-      <section class="head_goback left" @click="$router.go(-1)">
-        <img src="../../../static/images/tabBar/back_normal@2x.png">
-      </section>
-      <h1 class="header-title" v-if="headTitle">{{headTitle}}</h1>
-    </header>
+    <head-top :head-title="headTitle" isBack="true" @go-page="$router.go(-1)"></head-top>
     <div class="swiper-container project-swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
@@ -262,7 +257,7 @@
     p{color: #444;font-size: 0.628rem;}
     p.text{color: #999;font-size: 0.51rem;
       span{color: #666;line-height: 48px;
-        i{color: $mc;}
+        i{color: $mainColor;}
       }
     }
     .project_progress{
@@ -325,7 +320,7 @@
           border-radius: 50%;
         }
         .circle_sel{
-          background: $mc;
+          background: $mainColor;
         }
         p{
           font-size: 0.51rem;

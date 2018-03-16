@@ -1,4 +1,5 @@
 import MobileDetect from '@/utils/mobile-detect.min'
+import {DES3} from '../plugins/DES3';
 /**
  * 获取本地IP地址
  */
@@ -266,5 +267,10 @@ export const getBankImg = (bankShortName)=>{
     case"WZCB":
       return require("../../static/images/bank/WZCB.png");
   }
-
 };
+export const encrypt = (data)  =>{
+  let encrypt_data = DES3.encrypt("G8%*@l1b",data);
+  encrypt_data = encrypt_data.replace(/\+/g, "%2B");
+  console.log(data,encrypt_data)
+  return encrypt_data;
+}

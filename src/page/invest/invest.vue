@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="invest_body">
     <head-top :head-title="headTitle" @go-page="$router.go(-1)">
       <nav slot="other" class="mint-navbar">
         <span @click="changeType('new')"><button :class="currentType=='new'?'selected':''">新客专享</button></span>
@@ -12,7 +12,7 @@
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
         <li v-for="item in projectList">
-          <router-link :to="{path: '/invest_test'}">
+          <router-link :to="{path: '/invest_detail'}">
             <div :class="item.pcomplete==100?'project_item project_item_f':'project_item'">
               <div class="p_head">
                 <h3 class="projectName">{{item.pname}}<span :class="item.pcomplete==100?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
@@ -66,25 +66,11 @@
         indeterminate: false,
         counterClockwise: false,
         hideBackground: false,
-        currentPage: 1
+        page: 1,
       }
     },
     mounted(){
-      // 注册scroll事件并监听
-      let _this = this;
-      window.addEventListener('scroll',function(){
-        // 判断是否滚动到底部
-        /*if(document.body.scrollTop + window.innerHeight >= document.body.offsetHeight) {
-          _this.loading = true;
-          // 如果开关打开则加载数据
-          if(_this.loading==true){
-            // 将开关关闭
-            _this.loading = false;
-            _this.getProjectList(this.currentPage++);
-          }
-        }*/
-      });
-      this.getProjectList(0);
+      this.getProjectList(0,this.page);
       this.$route.query.type!=undefined?this.changeType(this.$route.query.type):'';
     },
     components:{
@@ -92,8 +78,8 @@
       footerGuide
     },
     methods:{
-      async getProjectList (protype) {
-        const result = await investlist(protype,1);
+      async getProjectList (protype,page) {
+        const result = await investlist(protype,page);
         if(result.retcode=='00000000'){
           this.projectList = result.list;
           for(let i=0;i<this.projectList.length;i++){
@@ -110,6 +96,7 @@
       },
       loadMore() {
         this.loading = true;
+        this.page++;
         setTimeout(() => {
           this.loading = false;
         }, 2500);
@@ -125,6 +112,7 @@
 <style lang="scss" scoped>
   @import '../../style/mixin.scss';
   .vue-progress-path{width: 3rem!important;height: 3rem!important;stroke-width: 6;position: absolute;top: 2rem;right: 0;}
+  .invest_body{background: #f1f1f1!important;}
   .progress_value{
     position: absolute;
     top: 3rem;
@@ -146,7 +134,7 @@
     width: 50%;
     border-radius: 1rem;
     background: $fc;
-    color: $mc;
+    color: $mainColor;
     position: relative;
   }
   .mint-navbar span:nth-child(2) button{
@@ -160,16 +148,16 @@
     height: 100%;
     border-radius: 1rem;
     background-color: $fc;
-    color: $mc;
+    color: $mainColor;
     font-size: 0.638rem;
   }
   .mint-navbar button.selected{
     color: $fc;
-    background-color: $mc;
-    box-shadow: 4px 0 4px -3px $mc;
+    background-color: $mainColor;
+    box-shadow: 4px 0 4px -3px $mainColor;
   }
   .mint-navbar span:nth-child(2) button.selected{
-    box-shadow: -4px 0 4px -3px $mc;
+    box-shadow: -4px 0 4px -3px $mainColor;
   }
   /*列表*/
   .project_list{margin-bottom: 2.85rem;padding-top: 1.95rem;}
@@ -187,8 +175,8 @@
       font-size: 0.638rem;
       span.tag{
         font-size: 0.468rem;
-        color: $mc;
-        border: 1px solid $mc;
+        color: $mainColor;
+        border: 1px solid $mainColor;
         border-radius: 0.2rem;
         margin: 0 4px;
         @include wh(2.127rem,0.723rem);
@@ -214,10 +202,10 @@
     .percent{
       font-size: 1.49rem;
       font-weight: bold;
-      color: $mc;
+      color: $mainColor;
       span{
         font-weight: bold;
-        @include sc(0.88rem,$mc);
+        @include sc(0.88rem,$mainColor);
       }
       span.extra{
         font-size: 0.6rem;

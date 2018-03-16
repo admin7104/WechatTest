@@ -12,6 +12,7 @@ import '../static/common.css';
 import '../static/animate.css';
 import VueProgress from 'vue-progress-path'
 import CustomShapes from './utils/custom_shapes'
+import vnp from "vue-number-pwd"
 
 if ('addEventListener' in document) {
   document.addEventListener('DOMContentLoaded', function() {
@@ -23,6 +24,7 @@ Vue.use(mintUI);
 Vue.use(VueProgress);
 Vue.use(CustomShapes);
 Vue.prototype.$ = $;
+Vue.use(vnp);
 
 
 /* eslint-disable no-new */

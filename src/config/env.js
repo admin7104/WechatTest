@@ -6,8 +6,8 @@
  * imgBaseUrl: 图片所在域名地址
  *
  */
-
-let baseUrl = 'http://47.96.144.99:8080/appnew';
+let baseUrl = 'http://test.zhcsjr.com:8280/weixin';
+// let baseUrl = 'http://47.96.144.99:8080/appnew';
 //let baseUrl = 'http://172.16.20.112:8080/appnew';
 let routerMode = 'history';
 let imgBaseUrl = '';

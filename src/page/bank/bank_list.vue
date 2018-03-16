@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
+    <head-top :head-title="headTitle" is-back="true" @go-page="$router.go(-1)"></head-top>
     <div class="bank_list">
       <div class="bank_item" v-for="item in bank_list">
         <div @click="returnBind(item.bankName,item.bankCode)">
@@ -23,7 +23,7 @@
   export default {
     data: function () {
       return {
-        profiletitle: '选择银行卡',
+        headTitle: '选择银行卡',
         bank_list:{},
         bankInfo:{}
       }

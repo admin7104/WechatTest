@@ -11,7 +11,7 @@
         <mt-tab-container v-model="selected" swipeable>
           <mt-tab-container-item id="invest_list1" v-show="selected=='invest_list1'">
             <ul>
-              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId,sessionid:userInfo.sessionid}}" v-for="(item,index) in investlist" :key="index">
+              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId}}" v-for="(item,index) in investlist" :key="index">
                 <li>
                   <div class="title">
                     <h4>{{item.pname}}</h4>
@@ -28,7 +28,7 @@
           </mt-tab-container-item>
           <mt-tab-container-item id="invest_list2" v-show="selected=='invest_list2'">
             <ul>
-              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId,sessionid:userInfo.sessionid}}" v-for="(item,index) in investlist" :key="index">
+              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId}}" v-for="(item,index) in investlist" :key="index">
                 <li>
                   <div class="title">
                     <h4>{{item.pname}}</h4>
@@ -45,7 +45,7 @@
           </mt-tab-container-item>
           <mt-tab-container-item id="invest_list3" v-show="selected=='invest_list3'">
             <ul>
-              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId,sessionid:userInfo.sessionid}}" v-for="(item,index) in investlist" :key="index">
+              <router-link :to="{path:'/invest_item',query: {projectId: item.projectId}}" v-for="(item,index) in investlist" :key="index">
                 <li>
                   <div class="title">
                     <h4>{{item.pname}}</h4>
@@ -152,7 +152,7 @@
         margin: 0 15px;
       }
       button.current{
-        border-bottom: 2px solid $mc;
+        border-bottom: 2px solid $mainColor;
         color: #333;
       }
     }

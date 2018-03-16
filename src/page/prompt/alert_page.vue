@@ -57,8 +57,8 @@
         background: $fc;
         line-height: 1.5319rem;
         @include wh(5.617rem,1.5319rem);
-        @include sc(0.6808rem,$mc);
-        border: 1px solid $mc;
+        @include sc(0.6808rem,$mainColor);
+        border: 1px solid $mainColor;
         border-radius: 8px;
       }
     }

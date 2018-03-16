@@ -125,7 +125,7 @@ dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAASUVORK5CYII=" /></symbol>
       </svg>
       <span :style="$route.path.indexOf('invest') !== -1? 'color:#ff0000' : 'color:#000'">理财</span>
     </section>
-    <section @click = "0?gotoAddress('/login'):gotoAddress('/account')" class="guide_item">
+    <section @click = "userInfo?gotoAddress('/account'):gotoAddress('/login')" class="guide_item">
       <svg class="icon_style">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('account') !== -1? '#accountActive' : '#account'"></use>
       </svg>
@@ -136,13 +136,29 @@ dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAASUVORK5CYII=" /></symbol>
 </template>
 
 <script>
+  import {mapState,mapMutations} from 'vuex'
   export default {
     data: function () {
       return {
         selected:true
       }
     },
-    methods:{
+    created(){
+      this.INIT_USERINFO();
+    },
+    mounted(){
+    },
+    computed: {
+      ...mapState([
+        'geohash',
+        'userInfo',
+        'login'
+      ]),
+    },
+    methods: {
+      ...mapMutations([
+        'INIT_USERINFO'
+      ]),
       gotoAddress(url){
           this.$router.push(url);
       }

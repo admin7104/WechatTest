@@ -226,3 +226,6 @@ html,body{
 .vue-progress-path.indeterminate path{transition:none}
 .vue-progress-path svg{width: 100%;height: 100%;}
 
+.vmp{
+  background: rgba(0,0,0,.6);
+}

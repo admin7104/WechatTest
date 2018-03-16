@@ -49,6 +49,7 @@
         this.userInfo =  await login(this.phone,this.password);
         if(this.userInfo.retcode=='00000000'){
           this.$router.push({path:'/account'});
+          console.log(this.userInfo)
           this.RECORD_USERINFO(this.userInfo);
           this.getPayAccount(this.userInfo.sessionid);
         }else{
@@ -128,7 +129,7 @@
       font-weight: bold;
       @include hh(1.7872rem,1.7872rem);
       @include sc(0.7659rem,#fffefe);
-      background: $mc;
+      background: $mainColor;
       border-radius: 8px;
     }
     .to_reg{

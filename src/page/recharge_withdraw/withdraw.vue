@@ -1,6 +1,6 @@
 <template>
     <div class="recharge_withdraw_page">
-      <head-top :head-title="profiletitle" is-back="true" @go-page="$router.go(-1)"></head-top>
+      <head-top :head-title="headTitle" is-back="true" @go-page="$router.go(-1)"></head-top>
       <div class="withdraw_content">
         <div class="balance">
           <p class="text">账户余额(元)</p>
@@ -34,7 +34,7 @@ import {PhoneFormat} from '@/config/mUtils'
 export default {
     data(){
         return{
-          profiletitle: '提现',
+          headTitle: '提现',
           phone:"15158866411"
         }
     },
