@@ -9,23 +9,23 @@
     <div class="withdraw_content">
       <div class="balance">
         <p class="text">账户余额(元)</p>
-        <p class="money_value">{{my_account_obj?my_account_obj.available:0}}</p>
+        <p class="money_value">{{rechargeViewInfo.available}}</p>
       </div>
       <div class="operation">
         <div class="info">
-          <img class="bank_img" src="../../../static/images/account/bank/gongshang.png">
-          <p class="bank_name">{{userInfo.bankname}}<br><span class="bank_num">尾号{{fourCard}}</span></p>
-          <p class="desc">单笔限额<span>5万元</span><br>单日充值限额<span>50万元</span></p>
+          <img class="bank_img" :src="bankImg">
+          <p class="bank_name">{{rechargeViewInfo.bankName}}<br><span class="bank_num">尾号{{fourCard}}</span></p>
+          <p class="desc">单笔限额<span>{{rechargeViewInfo.onceLimit}}元</span><br>单日充值限额<span>{{rechargeViewInfo.dayLimit}}元</span></p>
           <div class="clear"></div>
           <div class="intro">
-            <div><p>姓名</p><p class="username">{{userInfo.realname}}</p></div>
+            <div><p>姓名</p><p class="username">{{rechargeViewInfo.realName}}</p></div>
             <div class="clear"></div>
             <div><p>手机号</p><p class="phone">{{phone}}</p></div>
             <input class="recharge_money" placeholder="请输入充值金额，2元起充" v-model="recharge_money">
           </div>
         </div>
         <div style="padding: 1.7rem 0.85rem 0.38rem;">
-          <input type="button" class="recharge_btn" value="确认" @click="rechargeMoney()">
+          <input type="button" class="recharge_btn" value="确认" @click="rechargeMoney">
           <a class="forget_pwd">忘记交易密码？</a>
         </div>
       </div>
@@ -35,9 +35,9 @@
 
 <script>
   import headTop from '@/components/header/head'
-  import {PhoneFormat,getStore,encrypt} from '@/config/mUtils'
+  import {PhoneFormat,getStore,encrypt,getBankImg} from '@/config/mUtils'
   import {mapState,mapMutations} from 'vuex'
-  import {rechargeFront} from '@/service/getData'
+  import {rechargeFront,rechargeFrontPreview} from '@/service/getData'
   import {MessageBox} from 'mint-ui'
 
   export default {
@@ -45,8 +45,10 @@
       return{
         headTitle: '充值',
         phone:"",
-        my_account_obj:[],
+        available: 0,
         recharge_money:'',
+        rechargeViewInfo:[],
+        bankImg:'',
         password:'',
         fourCard:'',
         isShow: false,
@@ -54,12 +56,7 @@
       }
     },
     mounted(){
-      this.phone = PhoneFormat(this.userInfo.mobile);
-      this.my_account_obj = JSON.parse(getStore("my_account_obj"));
-      this.fourCard = this.userInfo.discardid.substr(this.userInfo.discardid.length-4,this.userInfo.discardid.length);
-      /*console.log(this.userInfo);
-      console.log(this.my_account_obj);
-      console.log(this.payAccount);*/
+      this.rechargeView();
     },
     components:{
       headTop,
@@ -76,12 +73,24 @@
       ...mapMutations([
         'INIT_USERINFO'
       ]),
-      async rechargeMoney(){
-        this.recharge_money==''||this.recharge_money==0?MessageBox.alert("请输入有效金额"):this.isShow = true;;
+      async rechargeView(){
+        var rechargeViewResult = await rechargeFrontPreview(this.userInfo.sessionid);
+        if(rechargeViewResult.retcode=="00000000"){
+          this.rechargeViewInfo = rechargeViewResult.rechargeInfo;
+          this.phone = PhoneFormat(rechargeViewResult.rechargeInfo.mobile);
+          this.fourCard = rechargeViewResult.rechargeInfo.bankcardId.substr(rechargeViewResult.rechargeInfo.bankcardId.length-4,rechargeViewResult.rechargeInfo.bankcardId.length);
+          this.bankImg = getBankImg(rechargeViewResult.rechargeInfo.bankShortName);
+        }
+        console.log(rechargeViewResult);
+      },
+      rechargeMoney:function () {
+        this.recharge_money==''||this.recharge_money==0?MessageBox.alert("请输入有效金额"):this.isShow = true;
       },
       async validate(pwd){
         this.rechargeRes =  await rechargeFront(this.userInfo.sessionid,this.recharge_money,encrypt(pwd));
-        console.log(this.rechargeRes)
+        console.log(this.rechargeRes);
+        if(this.rechargeRes.retcode=="00000000") this.isShow = false;
+        else MessageBox.alert(this.rechargeRes.retmsg);
       }
     },
     watch: {

@@ -8,7 +8,7 @@
 
 .operation{background: #fff;height: 8.9rem;box-sizing: border-box;}
 .bank_img,.bank_name{float: left;font-size: 0.6rem;color: #282828;line-height: 1rem;margin: 0.74rem 0}
-.bank_img{margin: 0.74rem 0.85rem;width: 2.1276rem;height: 2.1276rem;}
+.bank_img{margin: 0.74rem 0.85rem;width: 2.6276rem;height: 2.1276rem;}
 .info .bank_num{color: #b4b4b4;}
 .intro>div:not(.clear){margin: 0 0 0 0.85rem;height: 1.91rem;line-height: 1.91rem;padding-right: 0.4rem;border-top: 1px solid #dcdcdc;}
 .intro>div p{float: left;font-size: 0.6rem;  color: #999;}
