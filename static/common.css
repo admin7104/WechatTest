@@ -229,3 +229,13 @@ html,body{
 .vmp{
   background: rgba(0,0,0,.6);
 }
+.banner_swiper .swiper-pagination-white .swiper-pagination-bullet {
+    width: 0.3rem;
+    height: 0.3rem;
+    display: inline-block;
+    background: #929191;
+    opacity: 1;
+}
+.banner_swiper .swiper-pagination-white .swiper-pagination-bullet-active{
+    background: #fff;
+}

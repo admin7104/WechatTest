@@ -39,6 +39,7 @@
   import {mapState,mapMutations} from 'vuex'
   import {rechargeFront,rechargeFrontPreview} from '@/service/getData'
   import {MessageBox} from 'mint-ui'
+  import {success} from '@/config/env'
 
   export default {
     data(){
@@ -66,7 +67,7 @@
     },
     computed:{
       ...mapState([
-        'userInfo','payAccount'
+        'userInfo'
       ]),
     },
     methods: {
@@ -75,7 +76,7 @@
       ]),
       async rechargeView(){
         var rechargeViewResult = await rechargeFrontPreview(this.userInfo.sessionid);
-        if(rechargeViewResult.retcode=="00000000"){
+        if(rechargeViewResult.retcode==success){
           this.rechargeViewInfo = rechargeViewResult.rechargeInfo;
           this.phone = PhoneFormat(rechargeViewResult.rechargeInfo.mobile);
           this.fourCard = rechargeViewResult.rechargeInfo.bankcardId.substr(rechargeViewResult.rechargeInfo.bankcardId.length-4,rechargeViewResult.rechargeInfo.bankcardId.length);
@@ -89,7 +90,7 @@
       async validate(pwd){
         this.rechargeRes =  await rechargeFront(this.userInfo.sessionid,this.recharge_money,encrypt(pwd));
         console.log(this.rechargeRes);
-        if(this.rechargeRes.retcode=="00000000") this.isShow = false;
+        if(this.rechargeRes.retcode==success) this.isShow = false;
         else MessageBox.alert(this.rechargeRes.retmsg);
       }
     },

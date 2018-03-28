@@ -108,6 +108,7 @@
   import {getStore,setStore} from '@/config/mUtils'
   import {mapState,mapMutations} from 'vuex'
   import {myAccount} from '@/service/getData'
+  import {success} from '@/config/env'
   export default {
     data: function () {
       return {
@@ -128,7 +129,7 @@
     },
     computed:{
       ...mapState([
-        'userInfo','payAccount'
+        'userInfo'
       ]),
     },
     methods: {
@@ -137,7 +138,7 @@
       ]),
       async getMyAccount(){
         let account = await myAccount(this.userInfo.sessionid);
-        if(account.retcode=="00000000"){
+        if(account.retcode==success){
           this.myAccount = account.userFundsMore;
           setStore('my_account_obj',this.myAccount);
         }
@@ -145,7 +146,6 @@
           this.loginName = null;
           this.$router.push({path:'/login'})
         }
-        console.log(this.myAccount);
       },
     }
   }

@@ -70,6 +70,7 @@
   import headTop from '@/components/header/head'
   import {mapMutations,mapState} from 'vuex'
   import {myTender} from '@/service/getData'
+  import {success} from '@/config/env'
   export default {
     data: function () {
       return {
@@ -104,7 +105,7 @@
       },
       async getInvestList(page,queryType){
         let investList = await myTender(this.userInfo.sessionid,page,queryType);
-        if(investList.retcode="00000000"){
+        if(investList.retcode=success){
           this.investlist = investList.tenderList;
           for(let i=0;i<this.investlist.length;i++){
             this.investlist[i].pStatusText = this.investlist[i].pStatusId==4?'筹集中':this.investlist[i].pStatusId==6?'投资中':'已还清';

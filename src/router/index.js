@@ -19,6 +19,7 @@ const bank_list = r => require.ensure([], () => r(require('../page/bank/bank_lis
 const capital_details = r => require.ensure([], () => r(require('../page/account/children/capital_details')), 'capital_details');
 const financial_coupon = r => require.ensure([], () => r(require('../page/account/children/financial_coupon')), 'financial_coupon');
 const activity_page = r => require.ensure([], () => r(require('../page/account/children/activity_page')), 'activity_page');
+const certification = r => require.ensure([], () => r(require('../page/account/children/certification')), 'certification');
 
 const recharge = r => require.ensure([], () => r(require('../page/recharge_withdraw/recharge')), 'recharge');
 const withdraw = r => require.ensure([], () => r(require('../page/recharge_withdraw/withdraw')), 'withdraw');
@@ -58,8 +59,8 @@ const routes = [
     component: account_infos
   },
   {
-    path:'/account_infos',
-    component: account_infos
+    path:'/certification',
+    component: certification
   },
   {
     path:'/financial_coupon',

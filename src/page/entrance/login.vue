@@ -24,6 +24,7 @@
   import {setStore,getStore,getPhone} from '@/config/mUtils'
   import {login,myPayAccount} from '@/service/getData'
   import {mapMutations} from 'vuex'
+  import {success} from '@/config/env'
   export default {
     data: function () {
       return {
@@ -47,18 +48,12 @@
       ]),
       async login () {
         this.userInfo =  await login(this.phone,this.password);
-        if(this.userInfo.retcode=='00000000'){
+        if(this.userInfo.retcode==success){
           this.$router.push({path:'/account'});
-          console.log(this.userInfo)
           this.RECORD_USERINFO(this.userInfo);
-          this.getPayAccount(this.userInfo.sessionid);
         }else{
           alert(this.userInfo.retmsg);
         }
-      },
-      async getPayAccount(sessionid){
-        let payaccount = await myPayAccount(sessionid);
-        this.RECORD_PAYACCOUNT(payaccount.account);
       }
     }
   }

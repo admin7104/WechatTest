@@ -1,6 +1,15 @@
 <template>
   <div class="page-swipe">
-    <app-banner :listImg="listImg"></app-banner>
+    <div class="swiper-container banner_swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="banner_img in listImg">
+          <router-link :to="{path: '/link',query:{url:banner_img.toUrl,title:banner_img.title}}" >
+            <img :src="banner_img.url" class="banner_img">
+          </router-link>
+        </div>
+      </div>
+      <div class="swiper-pagination swiper-pagination-white"></div>
+    </div>
     <section class="button-group">
       <ul>
         <li class="left" v-for="buttonItem in buttonList">
@@ -55,36 +64,15 @@
 <script>
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
-  import Banner from '@/components/common/Banner'
   import footerGuide from '@/components/footer/footerGuide'
   import '../../../static/common.css'
   import {mapState} from 'vuex'
   import {getStore} from '@/config/mUtils'
+  import {get_banner} from '@/service/getData'
   export default {
     data: function () {
       return {
-        listImg: [
-          {
-            url: "http://www.itcast.cn/subject/phoneweb/index.html",
-            img: "../../static/images/banner/banner1.png"
-          },
-          {
-            url: "http://www.itcast.cn/subject/phoneweb/index.html",
-            img: "../../static/images/banner/banner2.png"
-          },
-          {
-            url: "http://www.itcast.cn/subject/phoneweb/index.html",
-            img: "../../static/images/banner/banner3.png"
-          },
-          {
-            url: "http://www.itcast.cn/subject/phoneweb/index.html",
-            img: "../../static/images/banner/banner4.png"
-          },
-          {
-            url: "http://www.itcast.cn/subject/phoneweb/index.html",
-            img: "../../static/images/banner/banner5.png"
-          }
-        ],
+        listImg: [],
         buttonList:[
           {
             url:"http://www.baidu.com",
@@ -110,16 +98,32 @@
       }
     },
     mounted(){
+      this.$("#app")[0].style.background = "#f1f1f1";
       var swiper = new Swiper('.project-container', {
         loop: false,
         effect: 'coverflow',
         grabCursor: true,
         slidesPerView: 'auto',
         coverflowEffect: {
-
         }
       });
-      console.log(getStore('loginName'))
+      get_banner().then(data =>{
+        var list = data.bannerList;
+        this.listImg = list;
+        setTimeout(function () {
+          var swiper_banner = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            loop: true,
+            //effect:'fade',
+            speed: 600,
+            autoplay: 3000,
+            onTouchEnd: function() {
+              swiper_banner.startAutoplay()
+            }
+          });
+        },500);
+      });
     },
     computed:{
       ...mapState([
@@ -129,7 +133,6 @@
     methods:{
     },
     components:{
-      'app-banner':Banner,
       footerGuide
     }
   }
@@ -139,6 +142,27 @@
   .vue-progress-path{width: 10rem!important;height: 10rem!important;stroke-width:6;position: absolute;left: 1rem;}
   .mc{
     color: $mainColor;
+  }
+  .swiper-container {
+    width: 100%;
+    height: 7.6595rem;
+  }
+  .swiper-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .swiper-pagination-white .swiper-pagination-bullet-active{
+    background: #fff;
   }
   .sf{
     font-size: 0.4rem;

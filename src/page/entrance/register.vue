@@ -23,6 +23,7 @@
   import {isExistLoginName,getAuthCode,register} from '@/service/getData'
   import {MessageBox} from 'mint-ui'
   import {setStore,getStore} from '@/config/mUtils'
+  import {success} from '@/config/env'
   export default {
     data: function () {
       return {
@@ -91,7 +92,7 @@
         if(this.getCodeBtn==false) return;
         const codeResult = await getAuthCode(this.registe.loginname,"USER_REGISTER",new Date());
         console.log(codeResult);
-        if(codeResult.retcode=="00000000"){
+        if(codeResult.retcode==success){
           setStore("streamid",codeResult.streamid);
           this.initSecond();
         }else MessageBox.alert(codeResult.retmsg);
@@ -102,7 +103,7 @@
           return;
         }
         const regResult = await register(this.registe.loginname,this.registe.loginpwd,this.registe.authcode,this.registe.spreadcode,this.registe.sequence);
-        if(regResult.retcode=="00000000"){
+        if(regResult.retcode==success){
           this.registe.sequence = regResult.sequence;
           MessageBox.alert('注册成功');
           this.$router.push({path:'/login',query:{loginname:regResult.loginname}})

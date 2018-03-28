@@ -8,13 +8,13 @@
       <mt-cell
         class="mt20"
         title="实名认证"
-        :to="{path:'/bind_bank'}"
+        :to="{path:userInfo.isbindcard==1?'/certification':'/bind_bank'}"
         is-link
         value="">
       </mt-cell>
       <mt-cell
         title="我的银行卡"
-        :to="{path:'/my_bank'}"
+        :to="{path:userInfo.isbindcard==1?'/my_bank':'/bind_bank'}"
         is-link
         value="">
       </mt-cell>
@@ -43,12 +43,6 @@
         is-link
         value="">
       </mt-cell>
-      <mt-cell class="no_border"
-        title="清除缓存"
-        to="//github.com"
-        is-link
-        value="255M">
-      </mt-cell>
       <div class="logout_bg">
         <mt-button @click="logout">退出登录</mt-button>
       </div>
@@ -68,7 +62,6 @@
     },
     created(){
       this.INIT_USERINFO();
-      console.log(this.payAccount)
     },
     mounted(){
         this.$("#app")[0].style.background = "#eee";
@@ -78,7 +71,7 @@
     },
     computed:{
       ...mapState([
-        'userInfo','payAccount'
+        'userInfo'
       ]),
     },
     methods:{

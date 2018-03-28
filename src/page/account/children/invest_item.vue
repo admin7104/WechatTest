@@ -78,6 +78,7 @@
         if(investItem.retcode == success)
         {
           this.investItem = investItem.pdv;
+          console.log(this.investItem);
         }
       }
     }

@@ -36,7 +36,7 @@
   @import '../../style/mixin.scss';
   .header_top{
     height: 1.95rem;
-    background: $mainColor;
+    background-image: -webkit-linear-gradient(left, #fa5e35, #fe6e46, #ff8655);;
     color: $fc;
     text-align: center;
     line-height: 1.95rem;

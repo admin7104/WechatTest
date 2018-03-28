@@ -34,6 +34,7 @@ import {PhoneFormat,encrypt,getBankImg} from '@/config/mUtils'
 import {mapState,mapMutations} from 'vuex'
 import {withdrawFrontPreview,withdrawFront,validWithdrawFeeMoney} from '@/service/getData'
 import {MessageBox} from 'mint-ui'
+import {success} from '@/config/env'
 
 export default {
     data(){
@@ -59,7 +60,7 @@ export default {
     },
     computed:{
       ...mapState([
-        'userInfo','payAccount'
+        'userInfo'
       ]),
     },
     methods:{
@@ -68,7 +69,7 @@ export default {
       ]),
       async withdrawView(){
         var withdrawViewResult = await withdrawFrontPreview(this.userInfo.sessionid);
-        if(withdrawViewResult.retcode=="00000000"){
+        if(withdrawViewResult.retcode==success){
           this.canWithdrawAmount = withdrawViewResult.rechargeInfo.available;
           this.withdrawViewInfo = withdrawViewResult.rechargeInfo;
           this.phone = PhoneFormat(withdrawViewResult.rechargeInfo.mobile);
@@ -92,7 +93,7 @@ export default {
       async validate(pwd){
         this.withdrawRes =  await withdrawFront(this.userInfo.sessionid,this.withdraw_money,encrypt(pwd));
         console.log(this.withdrawRes);
-        if(this.withdrawRes.retcode=="00000000") this.isShow = false;
+        if(this.withdrawRes.retcode==success) this.isShow = false;
         else MessageBox.alert(this.withdrawRes.retmsg);
       }
     },

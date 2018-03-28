@@ -11,37 +11,35 @@
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
-        <li v-for="item in projectList">
-          <router-link :to="{path: '/invest_detail'}">
-            <div :class="item.pcomplete==100?'project_item project_item_f':'project_item'">
-              <div class="p_head">
-                <h3 class="projectName">{{item.pname}}<span :class="item.pcomplete==100?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
-              </div>
-              <div class="ib info_left">
-                <p class="percent">{{item.prateBase}}<span>{{item.text}}</span><span v-if="item.prateAppend" class="extra">+{{item.prateAppend}}.00%</span></p>
-                <p class="desc lh">历史年化收益率</p>
-              </div>
-              <div class="ib info_right">
-                <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">{{item.pdeadline}}{{item.pdeadlineType}}</span></p>
-                <p class="lh"><span class="desc">可投金额</span><span class="text">{{item.ploan-item.ploanReal}}元</span></p>
-              </div>
-              <p class="progress_value" v-if="item.pcomplete!=100&&item.pstatusId!='5'&&item.pstatusId!='6'&&item.pstatusId!='7'">{{item.pcomplete}}%</p>
-              <loading-progress v-if="item.pcomplete!=100&&item.pstatusId!='5'&&item.pstatusId!='6'&&item.pstatusId!='7'"
-                :progress="item.pcomplete==0?1-0.00000000001:1-item.pcomplete/100"
-                :indeterminate="indeterminate"
-                :counter-clockwise="counterClockwise"
-                :hide-background="hideBackground"
-                shape="circle"
-                size="150"
-                fill-duration="2"
-                background="circle_bg"
-                progress_bg = "progress2"
-              />
-              <div class="sell_status sold" v-if="item.pcomplete==100&&item.pstatusId=='5'"></div>
-              <div class="sell_status repaid" v-if="item.pstatusId=='7'"></div>
-              <div class="sell_status repaying" v-if="item.pstatusId=='6'"></div>
+        <li v-for="item in projectList" @click="setProject(item)">
+          <div :class="item.pcomplete==100?'project_item project_item_f':'project_item'">
+            <div class="p_head">
+              <h3 class="projectName">{{item.pname}}<span :class="item.pcomplete==100?'tag tag_f':'tag'" v-for="tag in item.tag">{{tag}}</span></h3>
             </div>
-          </router-link>
+            <div class="ib info_left">
+              <p class="percent">{{item.prateBase}}<span>{{item.text}}</span><span v-if="item.prateAppend" class="extra">+{{item.prateAppend}}.00%</span></p>
+              <p class="desc lh">历史年化收益率</p>
+            </div>
+            <div class="ib info_right">
+              <p class="lh"><span class="desc">锁&nbsp;定&nbsp;期</span><span class="text">{{item.pdeadline}}{{item.pdeadlineType}}</span></p>
+              <p class="lh"><span class="desc">可投金额</span><span class="text">{{item.ploan-item.ploanReal}}元</span></p>
+            </div>
+            <p class="progress_value" v-if="item.pcomplete!=100&&item.pstatusId!='5'&&item.pstatusId!='6'&&item.pstatusId!='7'">{{item.pcomplete}}%</p>
+            <loading-progress v-if="item.pcomplete!=100&&item.pstatusId!='5'&&item.pstatusId!='6'&&item.pstatusId!='7'"
+              :progress="item.pcomplete==0?1-0.00000000001:1-item.pcomplete/100"
+              :indeterminate="indeterminate"
+              :counter-clockwise="counterClockwise"
+              :hide-background="hideBackground"
+              shape="circle"
+              size="150"
+              fill-duration="2"
+              background="circle_bg"
+              progress_bg = "progress2"
+            />
+            <div class="sell_status sold" v-if="item.pcomplete==100&&item.pstatusId=='5'"></div>
+            <div class="sell_status repaid" v-if="item.pstatusId=='7'"></div>
+            <div class="sell_status repaying" v-if="item.pstatusId=='6'"></div>
+          </div>
         </li>
       </ul>
     </div>
@@ -53,24 +51,27 @@
   import headTop from '@/components/header/head'
   import footerGuide from '@/components/footer/footerGuide'
   import '../../../static/common.css'
-  import {investlist} from '@/service/getData'
-  import {pdeadlineType} from '@/config/mUtils'
+  import {investlist,myTenderDetail} from '@/service/getData'
+  import {pdeadlineType,setStore} from '@/config/mUtils'
+  import {success} from "../../config/env";
+
   export default {
     data: function () {
       return {
         headTitle: "",
         selected:true,
         currentType:'new',
-        loading:true,
+        loading:false,
         projectList:[],
         indeterminate: false,
         counterClockwise: false,
         hideBackground: false,
         page: 1,
+        protype: 0
       }
     },
     mounted(){
-      this.getProjectList(0,this.page);
+      this.getProjectList(this.protype,this.page);
       this.$route.query.type!=undefined?this.changeType(this.$route.query.type):'';
     },
     components:{
@@ -78,14 +79,35 @@
       footerGuide
     },
     methods:{
+      setProject(item){
+        if(this.userInfo!=null)
+          this.tenderDetail(this.userInfo.sessionid,item.projectId.toString());
+        else
+          this.tenderDetail('',item.projectId.toString());
+      },
+
+      async tenderDetail(sessionId,projectId){
+        this.project =  await myTenderDetail(sessionId,projectId);
+        if(this.project.retcode == success){
+          setStore("pdv",this.project.pdv);
+          setStore("projectInfo",this.project.projectInfo);
+        }
+        this.$router.push({path: '/invest_detail'});
+      },
       async getProjectList (protype,page) {
         const result = await investlist(protype,page);
         if(result.retcode=='00000000'){
-          this.projectList = result.list;
-          for(let i=0;i<this.projectList.length;i++){
-            this.projectList[i].prateBase = this.projectList[i].prateBase;
-            this.projectList[i].text = ((this.projectList[i].prateBase-parseInt(this.projectList[i].prateBase)).toFixed(2)).substr(1)+'%';
-            this.projectList[i].pdeadlineType = pdeadlineType(this.projectList[i].pdeadlineType);
+          var length = result.list.length;
+          for(var i = 0;i<length;i++)
+          {
+            let pdeadLineType = result.list[i].pdeadlineType;
+            result.list[i].pdeadlineType = pdeadlineType(pdeadLineType);
+            this.projectList.push(result.list[i]);
+          }
+          for(var j = 0;j<this.projectList.length;j++)
+          {
+            this.projectList[j].text = ((this.projectList[j].prateBase-parseInt(this.projectList[j].prateBase)).toFixed(2)).substr(1)+'%';
+            this.projectList[j].prateBase = parseInt(this.projectList[j].prateBase);
           }
         }
         else alert(result.retmsg);
@@ -98,13 +120,16 @@
         this.loading = true;
         this.page++;
         setTimeout(() => {
+          this.getProjectList(this.protype,this.page);
           this.loading = false;
         }, 2500);
       },
     },
     watch: {
       currentType(curVal, oldVal) {
-        oldVal=='new'?this.getProjectList(11):this.getProjectList(0);
+        oldVal=='new'?this.protype = 11:this.protype = 0;
+        this.projectList = [];
+        this.getProjectList(this.protype,0);
       },
     }
   }
